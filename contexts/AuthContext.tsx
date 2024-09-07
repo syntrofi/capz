@@ -2,9 +2,12 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+type LoginProvider = 'Farcaster' | 'Google' | 'X';
+
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: () => void;
+  loginProvider: LoginProvider | null;
+  login: (provider: LoginProvider) => void;
   logout: () => void;
 }
 
@@ -12,12 +15,20 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginProvider, setLoginProvider] = useState<LoginProvider | null>(null);
 
-  const login = () => setIsLoggedIn(true);
-  const logout = () => setIsLoggedIn(false);
+  const login = (provider: LoginProvider) => {
+    setIsLoggedIn(true);
+    setLoginProvider(provider);
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    setLoginProvider(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, loginProvider, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
