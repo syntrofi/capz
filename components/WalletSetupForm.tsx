@@ -20,13 +20,15 @@ const ClickableCard: React.FC<{
 }> = ({ selected, onClick, children }) => (
   <div
     onClick={onClick}
-    className={`cursor-pointer p-4 rounded-lg border-2 transition-all ${
+    className={`cursor-pointer p-4 rounded-lg border transition-all ${
       selected
-        ? 'border-indigo-500 bg-indigo-50'
-        : 'border-gray-200 hover:border-indigo-300'
+        ? 'border-dogwood_rose'
+        : 'border-gray-600 hover:border-gray-400'
     }`}
   >
-    {children}
+    <span className={`text-sm font-medium ${selected ? 'text-dogwood_rose font-bold' : 'text-white'}`}>
+      {children}
+    </span>
   </div>
 );
 
@@ -55,97 +57,102 @@ export default function WalletSetupForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 max-w-2xl mx-auto">
-      <div>
-        <label htmlFor="targetIncome" className="block text-sm font-medium text-gray-700">
-          Target income
-        </label>
-        <div className="mt-1 relative rounded-md shadow-sm">
-          <input
-            type="number"
-            name="targetIncome"
-            id="targetIncome"
-            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-            placeholder="0.00"
-            value={formState.targetIncome}
-            onChange={handleInputChange}
-            required
-          />
-          <div className="absolute inset-y-0 right-0 flex items-center">
-            <select
-              id="currency"
-              name="currency"
-              className="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
-            >
-              <option>USD</option>
-            </select>
+    <div className="flex items-center justify-center min-h-screen bg-dark_purple p-4">
+      <div className="w-full max-w-md">
+        <h1 className="text-4xl font-bold text-white mb-12 text-center">Set up a Capz account</h1>
+        <form onSubmit={handleSubmit} className="space-y-12">
+          <div className="space-y-2">
+            <label htmlFor="targetIncome" className="block text-sm font-medium text-platinum">
+              Target income
+            </label>
+            <div className="relative rounded-md shadow-sm">
+              <input
+                type="number"
+                name="targetIncome"
+                id="targetIncome"
+                className="bg-english_violet text-white placeholder-gray-400 w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-ultra_violet focus:border-transparent"
+                placeholder="0.00"
+                value={formState.targetIncome}
+                onChange={handleInputChange}
+                required
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center">
+                <select
+                  id="currency"
+                  name="currency"
+                  className="h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-400 sm:text-sm rounded-md"
+                >
+                  <option>USD</option>
+                </select>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Timeframe</label>
-        <div className="grid grid-cols-3 gap-4">
-          {(['monthly', 'quarterly', 'yearly'] as const).map((option) => (
-            <ClickableCard
-              key={option}
-              selected={formState.timeFrame === option}
-              onClick={() => handleCardSelection('timeFrame')(option)}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-platinum">Timeframe</label>
+            <div className="grid grid-cols-3 gap-4">
+              {(['monthly', 'quarterly', 'yearly'] as const).map((option) => (
+                <ClickableCard
+                  key={option}
+                  selected={formState.timeFrame === option}
+                  onClick={() => handleCardSelection('timeFrame')(option)}
+                >
+                  {option}
+                </ClickableCard>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="walletAddress" className="block text-sm font-medium text-platinum">
+              Own recipient wallet address
+            </label>
+            <input
+              type="text"
+              name="walletAddress"
+              id="walletAddress"
+              className="bg-english_violet text-white placeholder-gray-400 w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-ultra_violet focus:border-transparent"
+              value={formState.walletAddress}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-platinum">Redistribution strategy</label>
+            <div className="grid grid-cols-2 gap-4">
+              {([
+                { value: 'all-above-threshold', label: 'All above threshold' },
+                { value: 'participatory-growth', label: 'Participatory Growth' },
+              ] as const).map((option) => (
+                <ClickableCard
+                  key={option.value}
+                  selected={formState.redistributionStrategy === option.value}
+                  onClick={() => handleCardSelection('redistributionStrategy')(option.value)}
+                >
+                  {option.label}
+                </ClickableCard>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between pt-4">
+            <button
+              type="button"
+              onClick={() => router.push('/dashboard')}
+              className="px-4 py-3 border border-ultra_violet text-platinum rounded-lg font-medium hover:bg-ultra_violet hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ultra_violet"
             >
-              <span className="text-sm font-medium capitalize">{option}</span>
-            </ClickableCard>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="walletAddress" className="block text-sm font-medium text-gray-700">
-          Own recipient wallet address
-        </label>
-        <input
-          type="text"
-          name="walletAddress"
-          id="walletAddress"
-          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          value={formState.walletAddress}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Redistribution strategy</label>
-        <div className="grid grid-cols-2 gap-4">
-          {([
-            { value: 'all-above-threshold', label: 'All above threshold' },
-            { value: 'participatory-growth', label: 'Participatory Growth' },
-          ] as const).map((option) => (
-            <ClickableCard
-              key={option.value}
-              selected={formState.redistributionStrategy === option.value}
-              onClick={() => handleCardSelection('redistributionStrategy')(option.value)}
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-3 bg-ultra_violet text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ultra_violet"
             >
-              <span className="text-sm font-medium">{option.label}</span>
-            </ClickableCard>
-          ))}
-        </div>
+              Create Smart Account
+            </button>
+          </div>
+        </form>
       </div>
-
-      <div className="flex justify-between">
-        <button
-          type="button"
-          onClick={() => router.push('/dashboard')}
-          className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Create Smart Account
-        </button>
-      </div>
-    </form>
+    </div>
   );
 }
