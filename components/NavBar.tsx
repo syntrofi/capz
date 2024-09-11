@@ -9,34 +9,32 @@ export default function Navbar() {
   const { isLoggedIn, logout } = useAuth()
 
   return (
-    <nav className="bg-white shadow-sm">
+    <nav className="bg-english_violet shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link href="/dashboard" className="text-xl font-semibold text-gray-800">
+        <Link href="/dashboard" className="text-xl font-semibold text-white">
           Capz Wallet
         </Link>
         <div className="flex items-center space-x-4">
           <Link 
             href="/dashboard" 
-            className={`text-sm ${pathname === '/dashboard' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+            className={`text-sm ${pathname === '/dashboard' ? 'text-dogwood_rose' : 'text-platinum hover:text-white'}`}
           >
             Dashboard
           </Link>
           <Link 
             href="/wallet-setup" 
-            className={`text-sm ${pathname === '/wallet-setup' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+            className={`text-sm ${pathname === '/wallet-setup' ? 'text-dogwood_rose' : 'text-platinum hover:text-white'}`}
           >
             Add Wallet
           </Link>
           {isLoggedIn ? (
-            <button onClick={logout} className="text-gray-600 hover:text-gray-800">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+            <button onClick={logout} className="text-platinum hover:text-white">
+              Logout
             </button>
           ) : (
             <Link 
               href="/login" 
-              className={`text-sm ${pathname === '/login' ? 'text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+              className={`text-sm ${pathname === '/login' ? 'text-dogwood_rose' : 'text-platinum hover:text-white'}`}
             >
               Login
             </Link>

@@ -9,8 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        platinum: '#e7e7e7',
+        english_violet: '#3b3549',
+        ultra_violet: '#5a4f96',
+        dark_purple: '#140f22',
+        dogwood_rose: '#cc0066',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'], // TODO find better font
       },
     },
   },
