@@ -2,17 +2,22 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { walletStorage } from '@/services/localStorage';
 
+// Define types for our form fields
 type TimeFrame = 'monthly' | 'quarterly' | 'yearly';
 type RedistributionStrategy = 'all-above-threshold' | 'participatory-growth';
 
+// Interface for our form state
 interface WalletSetupFormState {
+  name: string;
   targetIncome: string;
   timeFrame: TimeFrame;
-  walletAddress: string;
+  address: string;
   redistributionStrategy: RedistributionStrategy;
 }
 
+// Reusable component for clickable cards (used for timeFrame and redistributionStrategy)
 const ClickableCard: React.FC<{
   selected: boolean;
   onClick: () => void;
@@ -22,52 +27,127 @@ const ClickableCard: React.FC<{
     onClick={onClick}
     className={`cursor-pointer p-4 rounded-lg border transition-all ${
       selected
-        ? 'border-dogwood_rose'
-        : 'border-gray-600 hover:border-gray-400'
+        ? 'border-dogwood_rose text-dogwood_rose font-bold'
+        : 'border-gray-600 text-white hover:border-gray-400'
     }`}
   >
-    <span className={`text-sm font-medium ${selected ? 'text-dogwood_rose font-bold' : 'text-white'}`}>
-      {children}
-    </span>
+    {children}
   </div>
 );
 
 export default function WalletSetupForm() {
+  // Use Next.js router for navigation
   const router = useRouter();
+
+  // State for form fields
   const [formState, setFormState] = useState<WalletSetupFormState>({
+    name: '',
     targetIncome: '',
     timeFrame: 'monthly',
-    walletAddress: '',
+    address: '',
     redistributionStrategy: 'all-above-threshold',
   });
 
+  // State for validation errors
+  const [errors, setErrors] = useState<Partial<WalletSetupFormState>>({});
+
+  // Handle changes in input fields
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    // Update form state
     setFormState(prevState => ({ ...prevState, [name]: value }));
+    // Validate the changed field
+    validateField(name, value);
   };
 
+  // Handle selection of cards (for timeFrame and redistributionStrategy)
   const handleCardSelection = (field: keyof WalletSetupFormState) => (value: string) => {
-    setFormState(prevState => ({ ...prevState, [field]: value }));
+    setFormState(prevState => ({ ...prevState, [field]: value as any }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Validate individual form fields
+  const validateField = (name: string, value: string) => {
+    let error = '';
+    switch (name) {
+      case 'name':
+        // Ensure name is 1-40 characters and only contains letters, numbers, and spaces
+        if (!/^[a-zA-Z0-9 ]{1,40}$/.test(value)) {
+          error = 'Name must be 1-40 characters long and contain only letters, numbers, and spaces.';
+        }
+        break;
+      case 'targetIncome':
+        // Ensure target income is a valid number (including decimals)
+        if (!/^\d*\.?\d*$/.test(value)) {
+          error = 'Target income must be a number.';
+        }
+        break;
+      case 'address':
+        // Ensure address is a valid Ethereum address
+        if (!/^0x[a-fA-F0-9]{40}$/.test(value)) {
+          error = 'Invalid Ethereum address format.';
+        }
+        break;
+    }
+    // Update errors state
+    setErrors(prev => ({ ...prev, [name]: error }));
+  };
+
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Creating wallet:', formState);
-    router.push('/dashboard');
+    // Validate all fields before submission
+    Object.entries(formState).forEach(([key, value]) => validateField(key, value as string));
+    
+    // Check if there are any errors
+    if (Object.values(errors).every(error => error === '')) {
+      // If no errors, save the wallet
+      const newWallet = walletStorage.saveWallet({
+        name: formState.name,
+        targetIncome: parseFloat(formState.targetIncome),
+        timeFrame: formState.timeFrame,
+        address: formState.address,
+        redistributionStrategy: formState.redistributionStrategy,
+      });
+      console.log('Wallet created:', newWallet);
+      // Navigate to accounts page after successful creation
+      router.push('/accounts');
+    } else {
+      console.log('Form has errors. Please correct them.');
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-dark_purple p-4">
       <div className="w-full max-w-md">
-        <h1 className="text-4xl font-bold text-white mb-12 text-center">Set up a Capz account</h1>
-        <form onSubmit={handleSubmit} className="space-y-12">
+        <h1 className="text-4xl font-bold text-white mb-8 text-center">Set up a new account</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Account Name Field */}
+          <div className="space-y-2">
+            <label htmlFor="name" className="block text-sm font-medium text-platinum">
+              Account Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="bg-english_violet text-white placeholder-gray-400 w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-ultra_violet focus:border-transparent"
+              value={formState.name}
+              onChange={handleInputChange}
+              required
+              maxLength={40}
+              pattern="[a-zA-Z0-9 ]{1,40}"
+            />
+            {errors.name && <p className="text-dogwood_rose text-sm mt-1">{errors.name}</p>}
+          </div>
+
+          {/* Target Income Field */}
           <div className="space-y-2">
             <label htmlFor="targetIncome" className="block text-sm font-medium text-platinum">
               Target income
             </label>
             <div className="relative rounded-md shadow-sm">
               <input
-                type="number"
+                type="text"
                 name="targetIncome"
                 id="targetIncome"
                 className="bg-english_violet text-white placeholder-gray-400 w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-ultra_violet focus:border-transparent"
@@ -75,6 +155,7 @@ export default function WalletSetupForm() {
                 value={formState.targetIncome}
                 onChange={handleInputChange}
                 required
+                pattern="^\d*\.?\d*$"
               />
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <select
@@ -86,8 +167,10 @@ export default function WalletSetupForm() {
                 </select>
               </div>
             </div>
+            {errors.targetIncome && <p className="text-dogwood_rose text-sm mt-1">{errors.targetIncome}</p>}
           </div>
 
+          {/* Timeframe Selection */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-platinum">Timeframe</label>
             <div className="grid grid-cols-3 gap-4">
@@ -103,21 +186,25 @@ export default function WalletSetupForm() {
             </div>
           </div>
 
+          {/* Wallet Address Field */}
           <div className="space-y-2">
-            <label htmlFor="walletAddress" className="block text-sm font-medium text-platinum">
-              Own recipient wallet address
+            <label htmlFor="address" className="block text-sm font-medium text-platinum">
+              Wallet Address
             </label>
             <input
               type="text"
-              name="walletAddress"
-              id="walletAddress"
+              name="address"
+              id="address"
               className="bg-english_violet text-white placeholder-gray-400 w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-ultra_violet focus:border-transparent"
-              value={formState.walletAddress}
+              value={formState.address}
               onChange={handleInputChange}
               required
+              pattern="^0x[a-fA-F0-9]{40}$"
             />
+            {errors.address && <p className="text-dogwood_rose text-sm mt-1">{errors.address}</p>}
           </div>
 
+          {/* Redistribution Strategy Selection */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-platinum">Redistribution strategy</label>
             <div className="grid grid-cols-2 gap-4">
@@ -136,10 +223,11 @@ export default function WalletSetupForm() {
             </div>
           </div>
 
+          {/* Form Buttons */}
           <div className="flex justify-between pt-4">
             <button
               type="button"
-              onClick={() => router.push('/dashboard')}
+              onClick={() => router.push('/accounts')}
               className="px-4 py-3 border border-ultra_violet text-platinum rounded-lg font-medium hover:bg-ultra_violet hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ultra_violet"
             >
               Cancel
@@ -148,7 +236,7 @@ export default function WalletSetupForm() {
               type="submit"
               className="px-4 py-3 bg-ultra_violet text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ultra_violet"
             >
-              Create Smart Account
+              Create Account
             </button>
           </div>
         </form>
