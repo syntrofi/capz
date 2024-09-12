@@ -4,11 +4,11 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AccountCard from '@/components/AccountCard'
-import { useAccounts } from '@/hooks/useAccounts'
+import { useWallets } from '@/hooks/useWallets'
 
 export default function AccountsPage() {
   const router = useRouter()
-  const accounts = useAccounts()
+  const wallets = useWallets()
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -21,10 +21,10 @@ export default function AccountsPage() {
           Add New Account
         </button>
       </div>
-      {accounts.length > 0 ? (
+      {wallets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {accounts.map(account => (
-            <AccountCard key={account.id} account={account} />
+          {wallets.map(wallet => (
+            <AccountCard key={wallet.id} wallet={wallet} />
           ))}
         </div>
       ) : (
