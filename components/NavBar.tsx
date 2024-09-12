@@ -21,12 +21,14 @@ export default function Navbar() {
           >
             Dashboard
           </Link>
+          
           <Link 
-            href="/wallet-setup" 
-            className={`text-sm ${pathname === '/wallet-setup' ? 'text-dogwood_rose' : 'text-platinum hover:text-white'}`}
+            href="/accounts" 
+            className={`text-sm ${pathname === '/accounts' ? 'text-dogwood_rose' : 'text-platinum hover:text-white'}`}
           >
-            Add Wallet
+            Accounts
           </Link>
+
           {isLoggedIn ? (
             <button onClick={logout} className="text-platinum hover:text-white">
               Logout
