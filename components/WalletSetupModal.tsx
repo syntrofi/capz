@@ -13,9 +13,9 @@ const WalletSetupModal: React.FC<WalletSetupModalProps> = ({ isOpen, onClose }) 
 
   return (
     <div className="modal modal-open">
-      <div className="modal-box relative w-11/12 max-w-3xl">
-        <label htmlFor="wallet-setup-modal" className="btn btn-sm btn-circle absolute right-2 top-2" onClick={onClose}>✕</label>
-        <h3 className="font-bold text-lg mb-4">Set up a new account</h3>
+      <div className="modal-box relative w-11/12 max-w-3xl bg-gray-800 text-gray-100 p-6">
+        <label htmlFor="wallet-setup-modal" className="btn btn-sm btn-circle absolute right-2 top-2 bg-gray-700 text-gray-300" onClick={onClose}>✕</label>
+        <h3 className="font-bold text-2xl mb-6">Set up a new account</h3>
         <WalletSetupForm onClose={onClose} />
       </div>
       <label className="modal-backdrop" onClick={onClose}></label>
