@@ -16,10 +16,14 @@ const config: Config = {
         dogwood_rose: '#cc0066',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'], // TODO find better font
+        sans: ['Inter', 'sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["light", "dark"],
+  },
 };
+
 export default config;
