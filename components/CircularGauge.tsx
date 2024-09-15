@@ -9,7 +9,7 @@ interface CircularGaugeProps {
 
 const CircularGauge: React.FC<CircularGaugeProps> = ({ 
   percentage = 0, 
-  size = 100, 
+  size = 140, 
   strokeWidth = 10, 
   color = '#00ff00' 
 }) => {
@@ -21,7 +21,7 @@ const CircularGauge: React.FC<CircularGaugeProps> = ({
   return (
     <svg height={size} width={size} className="transform -rotate-90">
       <circle
-        stroke="#e6e6e6"
+        stroke="#4B5563" // Darker gray for the unfilled part
         fill="transparent"
         strokeWidth={strokeWidth}
         r={radius}

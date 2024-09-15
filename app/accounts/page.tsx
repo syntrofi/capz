@@ -31,12 +31,10 @@ const AccountsPage: React.FC = () => {
     setWallets([]);
   };
 
-  console.log('Rendering AccountsPage with wallets:', wallets);
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Your Accounts</h1>
+        <h1 className="text-3xl font-bold text-white">Your Accounts</h1>
         <div>
           <button onClick={openModal} className="btn btn-primary mr-2">
             Add New Account
@@ -49,12 +47,12 @@ const AccountsPage: React.FC = () => {
       {wallets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {wallets.map((wallet, index) => (
-            <AccountCard key={wallet?.id || index} wallet={wallet} />
+            <AccountCard key={wallet.id || index} wallet={wallet} />
           ))}
         </div>
       ) : (
         <div className="text-center py-8">
-          <p className="mb-4">You haven't set up any accounts yet.</p>
+          <p className="mb-4 text-white">You haven't set up any accounts yet.</p>
           <button onClick={openModal} className="btn btn-primary">
             Set Up an Account
           </button>

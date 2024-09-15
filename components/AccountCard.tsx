@@ -34,27 +34,54 @@ const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
     }
   };
 
+  // Helper function to format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  };
+
   return (
-    <div className="card lg:card-side bg-base-100 shadow-xl">
-      <figure className="p-6">
-        <CircularGauge percentage={gaugePercentage} size={100} strokeWidth={10} color={gaugeColor} />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">{wallet.name || 'Unnamed Wallet'}</h2>
-        <p>Balance: ${balance.toFixed(2)}</p>
-        <p>Target: ${targetIncome.toFixed(2)}</p>
-        <p className="text-xs truncate">{wallet.address || 'No address provided'}</p>
-        <div className="card-actions justify-end">
-          <button 
-            onClick={copyToClipboard} 
-            className="btn btn-ghost btn-xs"
-            disabled={!wallet.address}
-          >
-            Copy Address
-          </button>
+    <div className="card bg-gray-800 shadow-xl rounded-xl border border-gray-700">
+      <div className="card-body p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="card-title text-xl font-bold text-white">{wallet.name || 'Account Name'}</h2>
+          <span className="text-xs font-medium text-gray-300 bg-gray-700 px-3 py-1 rounded-full">
+            {wallet.timeFrame || 'monthly'}
+          </span>
+        </div>
+        
+        <div className="flex">
+          <div className="w-1/2 flex items-center justify-center">
+            <CircularGauge percentage={gaugePercentage} size={120} strokeWidth={8} color={gaugeColor} />
+          </div>
+          
+          <div className="w-1/2 flex flex-col justify-center pl-6">
+            <p className="text-base text-gray-200 mb-2">
+              Balance: <span className="font-semibold text-white">{formatCurrency(balance)}</span>
+            </p>
+            <p className="text-base text-gray-200">
+              Target: <span className="font-semibold text-white">{formatCurrency(targetIncome)}</span>
+            </p>
+          </div>
+        </div>
+        
+        <div className="mt-6 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <p className="text-sm text-gray-400 truncate max-w-[150px]">
+              {wallet.address ? `${wallet.address.slice(0, 8)}...${wallet.address.slice(-4)}` : 'No address'}
+            </p>
+            <button 
+              onClick={copyToClipboard} 
+              className="btn btn-circle btn-xs btn-outline"
+              disabled={!wallet.address}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
           {wallet.id && (
-            <Link href={`/accounts/${wallet.id}`} className="btn btn-primary btn-xs">
-              Details
+            <Link href={`/accounts/${wallet.id}`} className="btn btn-sm btn-primary px-6">
+              <span className="flex items-center justify-center h-full">Details</span>
             </Link>
           )}
         </div>
