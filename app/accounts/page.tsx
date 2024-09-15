@@ -1,23 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AccountCard from '@/components/AccountCard';
 import WalletSetupModal from '@/components/WalletSetupModal';
-import { useWallets } from '@/hooks/useWallets';
+import { walletStorage } from '@/services/localStorage';
 import { useRouter } from 'next/navigation';
 
 const AccountsPage: React.FC = () => {
-  const wallets = useWallets();
+  const [wallets, setWallets] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const loadedWallets = walletStorage.getWallets();
+    console.log('Loaded wallets:', loadedWallets);
+    setWallets(loadedWallets);
+  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const clearStorage = () => {
-    localStorage.removeItem('capz_wallets');
-    router.refresh();
+  const addNewWallet = (newWallet) => {
+    console.log('Adding new wallet:', newWallet);
+    setWallets(prevWallets => [...prevWallets, newWallet]);
   };
+
+  const clearStorage = () => {
+    console.log('Clearing storage');
+    walletStorage.clearWallets();
+    setWallets([]);
+  };
+
+  console.log('Rendering AccountsPage with wallets:', wallets);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -34,8 +48,8 @@ const AccountsPage: React.FC = () => {
       </div>
       {wallets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {wallets.map(wallet => (
-            <AccountCard key={wallet.id} wallet={wallet} />
+          {wallets.map((wallet, index) => (
+            <AccountCard key={wallet?.id || index} wallet={wallet} />
           ))}
         </div>
       ) : (
@@ -47,7 +61,7 @@ const AccountsPage: React.FC = () => {
         </div>
       )}
 
-      <WalletSetupModal isOpen={isModalOpen} onClose={closeModal} />
+      <WalletSetupModal isOpen={isModalOpen} onClose={closeModal} onSave={addNewWallet} />
     </div>
   );
 };
