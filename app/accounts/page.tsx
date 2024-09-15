@@ -6,8 +6,19 @@ import WalletSetupModal from '@/components/WalletSetupModal';
 import { walletStorage } from '@/services/localStorage';
 import { useRouter } from 'next/navigation';
 
+// Define the Wallet type
+interface Wallet {
+  id: string;
+  name: string;
+  targetIncome: number;
+  timeFrame: string;
+  address: string;
+  redistributionStrategy: string;
+  balance: number;
+}
+
 const AccountsPage: React.FC = () => {
-  const [wallets, setWallets] = useState([]);
+  const [wallets, setWallets] = useState<Wallet[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
@@ -20,7 +31,7 @@ const AccountsPage: React.FC = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const addNewWallet = (newWallet) => {
+  const addNewWallet = (newWallet: Wallet) => {
     console.log('Adding new wallet:', newWallet);
     setWallets(prevWallets => [...prevWallets, newWallet]);
   };
@@ -46,8 +57,8 @@ const AccountsPage: React.FC = () => {
       </div>
       {wallets.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {wallets.map((wallet, index) => (
-            <AccountCard key={wallet.id || index} wallet={wallet} />
+          {wallets.map((wallet) => (
+            <AccountCard key={wallet.id} wallet={wallet} />
           ))}
         </div>
       ) : (

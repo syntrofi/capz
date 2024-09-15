@@ -18,7 +18,7 @@ export const walletStorage = {
 
   saveWallet: (wallet: Omit<Wallet, 'id' | 'balance'>): Wallet => {
     const wallets = walletStorage.getWallets();
-    const newWallet = {
+    const newWallet: Wallet = {
       ...wallet,
       id: Date.now().toString(),
       balance: 0, // Initialize balance to 0

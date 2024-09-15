@@ -2,11 +2,24 @@
 
 import React from 'react';
 import WalletSetupForm from '@/components/WalletSetupForm';
+import { useRouter } from 'next/navigation';
+import { walletStorage } from '@/services/localStorage';
 
 export default function WalletSetupPage() {
+  const router = useRouter();
+
+  const handleSave = (wallet: any) => {
+    walletStorage.saveWallet(wallet);
+    router.push('/accounts');
+  };
+
+  const handleClose = () => {
+    router.push('/accounts');
+  };
+
   return (
     <div className="min-h-screen bg-base-200 flex items-center justify-center p-4 md:p-8">
-      <WalletSetupForm />
+      <WalletSetupForm onClose={handleClose} onSave={handleSave} />
     </div>
   );
 }
