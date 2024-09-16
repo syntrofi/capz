@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { FaCopy } from 'react-icons/fa';
 import CircularGauge from './CircularGauge';
 
 interface AccountCardProps {
@@ -9,27 +10,28 @@ interface AccountCardProps {
     targetIncome: number;
     timeFrame: string;
     address: string;
-    redistributionStrategy: string;
     balance: number;
+    cumulativeIncome: number;
   };
 }
 
 const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
-  const { id, name, targetIncome, timeFrame, address, balance } = wallet;
+  const { id, name, targetIncome, timeFrame, address, balance, cumulativeIncome } = wallet;
 
   const gaugePercentage = (balance / targetIncome) * 100;
+  const distributed = Math.max(0, cumulativeIncome - targetIncome);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(address);
-    // Optionally, you can add a toast notification here
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
-  const shortenAddress = (addr: string) => {
-    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    // You might want to add a toast or notification here to inform the user
   };
 
   return (
@@ -40,35 +42,37 @@ const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
           <CircularGauge percentage={gaugePercentage} size={120} strokeWidth={12} color="yellow" />
         </div>
         <div className="w-1/2 flex flex-col justify-center pl-6">
-          <p className="text-base text-gray-200 mb-2">
-            Balance: <span className="font-semibold text-white">{formatCurrency(balance)}</span>
-          </p>
-          <p className="text-base text-gray-200">
-            Target: <span className="font-semibold text-white">{formatCurrency(targetIncome)}</span>
-          </p>
+          <div className="mb-2">
+            <p className="text-base text-gray-400">Balance:</p>
+            <p className="text-lg font-semibold text-white">{formatCurrency(balance)}</p>
+          </div>
+          <div className="mb-2">
+            <p className="text-base text-gray-400">Target:</p>
+            <p className="text-lg font-semibold text-white">{formatCurrency(targetIncome)}</p>
+          </div>
+          <div>
+            <p className="text-base text-gray-400">Distributed:</p>
+            <p className="text-lg font-semibold text-white">{formatCurrency(distributed)}</p>
+          </div>
         </div>
       </div>
-      
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm text-gray-400 truncate max-w-[150px]">
-            {shortenAddress(address)}
-          </p>
-          <button 
-            onClick={copyToClipboard} 
-            className="btn btn-circle btn-xs btn-outline"
-            disabled={!address}
+      <div className="flex justify-between items-center">
+        <div className="flex items-center">
+          <p className="text-sm text-gray-400 mr-2">Address:</p>
+          <p className="text-base text-white mr-2">{formatAddress(address)}</p>
+          <button
+            onClick={() => copyToClipboard(address)}
+            className="bg-gray-700 text-white p-2 rounded hover:bg-gray-600 transition duration-300"
+            aria-label="Copy address"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
+            <FaCopy size={14} />
           </button>
         </div>
-        {id && (
-          <Link href={`/accounts/${id}`} className="btn btn-sm btn-primary px-6">
-            <span className="flex items-center justify-center h-full">Details</span>
-          </Link>
-        )}
+        <Link href={`/wallet/${id}`}>
+          <span className="bg-yellow-500 text-gray-900 px-3 py-1 text-sm rounded hover:bg-yellow-400 transition duration-300">
+            Details
+          </span>
+        </Link>
       </div>
     </div>
   );
