@@ -26,11 +26,12 @@ const LoginForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+
     login('Email');
     router.push('/dashboard');
   };
 
-  const handleProviderLogin = (provider: 'Google' | 'Web3 Wallet' | 'Farcaster') => {
+  const handleProviderLogin = (provider: 'Google' | 'Web3 Wallet' | 'Farcaster' | 'Email' ) => {
     login(provider);
     router.push('/dashboard');
   };

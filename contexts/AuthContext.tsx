@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type LoginProvider = 'Farcaster' | 'Google' | 'X';
+type LoginProvider = 'Farcaster' | 'Google' | 'Web3 Wallet' | 'Email';
 
 interface AuthContextType {
   isLoggedIn: boolean;
