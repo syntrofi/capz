@@ -11,7 +11,7 @@ export default function Navbar() {
   return (
     <nav className="bg-english_violet shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link href="/dashboard" className="text-xl font-semibold text-white">
+        <Link href="/accounts" className="text-xl font-semibold text-white">
           Capz Wallet
         </Link>
         <div className="flex items-center space-x-4">
