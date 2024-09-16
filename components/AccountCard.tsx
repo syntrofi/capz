@@ -17,8 +17,7 @@ interface AccountCardProps {
 const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
   const { id, name, targetIncome, timeFrame, address, balance } = wallet;
 
-  const gaugePercentage = Math.min((balance / targetIncome) * 100, 100);
-  const gaugeColor = gaugePercentage < 50 ? 'red' : gaugePercentage < 80 ? 'yellow' : 'green';
+  const gaugePercentage = (balance / targetIncome) * 100;
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
@@ -38,7 +37,7 @@ const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
       <h2 className="text-2xl font-bold mb-4 text-white">{name}</h2>
       <div className="flex mb-6">
         <div className="w-1/2 flex items-center justify-center">
-          <CircularGauge percentage={gaugePercentage} size={120} strokeWidth={8} color={gaugeColor} />
+          <CircularGauge percentage={gaugePercentage} size={120} strokeWidth={12} color="yellow" />
         </div>
         <div className="w-1/2 flex flex-col justify-center pl-6">
           <p className="text-base text-gray-200 mb-2">
