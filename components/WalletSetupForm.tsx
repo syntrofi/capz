@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaUsers, FaUserFriends, FaCode, FaCheckCircle } from 'react-icons/fa';
+import { ethers } from 'ethers';
 
 type TimeFrame = 'monthly' | 'quarterly' | 'yearly';
 type RedistributionStrategy = 'all-above-threshold' | 'participatory-growth';
@@ -10,13 +11,13 @@ interface WalletSetupFormState {
   name: string;
   targetIncome: string;
   timeFrame: TimeFrame;
-  address: string;
+  withdrawalAddress: string;
   redistributionStrategy: RedistributionStrategy;
 }
 
 interface WalletSetupFormProps {
   onClose: () => void;
-  onSave: (wallet: Omit<WalletSetupFormState, 'targetIncome'> & { targetIncome: number }) => void;
+  onSave: (wallet: Omit<WalletSetupFormState, 'targetIncome'> & { targetIncome: number, accountAddress: string }) => void;
 }
 
 const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) => {
@@ -26,14 +27,9 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
     name: '',
     targetIncome: '',
     timeFrame: 'monthly',
-    address: '',
+    withdrawalAddress: '',
     redistributionStrategy: 'all-above-threshold',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    console.log('Current step:', step);
-  }, [step]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -44,34 +40,31 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
     setFormState(prev => ({ ...prev, stakeholder }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted, current step:', step);
-    if (step < 2) {
-      console.log('Moving to next step');
+    if (step < 3) {
       setStep(step + 1);
-    } else if (step === 2) {
-      console.log('Submitting form with state:', formState);
-      setIsSubmitting(true);
-      try {
-        await onSave({
-          ...formState,
-          targetIncome: parseFloat(formState.targetIncome),
-        });
-        console.log('Wallet saved successfully');
-        setStep(3); // Move to success screen
-      } catch (error) {
-        console.error('Error saving wallet:', error);
-      } finally {
-        setIsSubmitting(false);
+    } else {
+      const targetIncomeNumber = parseFloat(formState.targetIncome);
+      if (isNaN(targetIncomeNumber)) {
+        alert('Please enter a valid target income.');
+        return;
       }
+
+      // Generate random account address here
+      const wallet = ethers.Wallet.createRandom();
+      const accountAddress = wallet.address;
+
+      onSave({
+        ...formState,
+        targetIncome: targetIncomeNumber,
+        accountAddress,
+      });
+
+      // Close the form after saving
+      onClose();
     }
   };
-
-  // Add this function if not already present
-  function generateRandomEthAddress(): string {
-    return `0x${Array.from({length: 40}, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
-  }
 
   const renderStepOne = () => (
     <>
@@ -151,18 +144,16 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
         </div>
 
         <div className="form-control">
-          <label className="label" htmlFor="address">
-            <span className="label-text">Ethereum Address</span>
+          <label className="label">
+            <span className="label-text">Withdrawal Address</span>
           </label>
           <input
             type="text"
-            id="address"
-            name="address"
-            value={formState.address}
+            name="withdrawalAddress"
+            value={formState.withdrawalAddress}
             onChange={handleChange}
             className="input input-bordered"
-            required
-            autoComplete="off"
+            placeholder="Enter your withdrawal address"
           />
         </div>
 
@@ -187,34 +178,40 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
   );
 
   const renderStepThree = () => (
-    <div className="text-center">
-      <h2 className="text-2xl font-bold mb-4">Account Created Successfully!</h2>
-      <p className="mb-4">Your new wallet has been set up.</p>
-    </div>
+    <>
+      <h2 className="text-2xl font-bold mb-4">Review and Confirm</h2>
+      <div className="mb-4">
+        <p><strong>Stakeholder:</strong> {formState.stakeholder}</p>
+        <p><strong>Name:</strong> {formState.name}</p>
+        <p><strong>Target Income:</strong> ${formState.targetIncome}</p>
+        <p><strong>Time Frame:</strong> {formState.timeFrame}</p>
+        <p><strong>Withdrawal Address:</strong> {formState.withdrawalAddress}</p>
+        <p><strong>Redistribution Strategy:</strong> {formState.redistributionStrategy}</p>
+      </div>
+      <p className="mb-4 text-sm text-gray-400">
+        By clicking "Create Wallet", a new Ethereum address will be generated for your account.
+      </p>
+    </>
   );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {step === 1 && renderStepOne()}
       {step === 2 && renderStepTwo()}
       {step === 3 && renderStepThree()}
-      
-      <div className="flex justify-between mt-6">
-        {step < 3 && (
-          <>
-            <button type="button" onClick={onClose} className="btn btn-outline" disabled={isSubmitting}>
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-              {step === 2 ? (isSubmitting ? 'Creating...' : 'Create Account') : 'Next'}
-            </button>
-          </>
-        )}
-        {step === 3 && (
-          <button type="button" onClick={onClose} className="btn btn-primary w-full">
-            Close
+      <div className="flex justify-between">
+        {step > 1 && (
+          <button
+            type="button"
+            onClick={() => setStep(step - 1)}
+            className="btn btn-outline"
+          >
+            Back
           </button>
         )}
+        <button type="submit" className="btn btn-primary">
+          {step < 3 ? 'Next' : 'Create Wallet'}
+        </button>
       </div>
     </form>
   );

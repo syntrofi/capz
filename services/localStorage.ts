@@ -1,12 +1,4 @@
-interface Wallet {
-  id: string;
-  name: string;
-  targetIncome: number;
-  timeFrame: string;
-  address: string;
-  redistributionStrategy: string;
-  balance: number;
-}
+import { Wallet } from '@/types/types';
 
 const STORAGE_KEY = 'capz_wallets';
 
@@ -20,10 +12,10 @@ export const walletStorage = {
     return parsedWallets;
   },
 
-  saveWallet: (wallet: Omit<Wallet, 'id' | 'balance'>): Wallet => {
+  saveWallet: (walletData: Omit<Wallet, 'id' | 'balance'>): Wallet => {
     const wallets = walletStorage.getWallets();
     const newWallet: Wallet = {
-      ...wallet,
+      ...walletData,
       id: Date.now().toString(),
       balance: 0,
     };

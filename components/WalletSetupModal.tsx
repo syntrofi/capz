@@ -2,20 +2,21 @@
 
 import React from 'react';
 import WalletSetupForm from './WalletSetupForm';
+import { Wallet } from '@/types/types';
 
 interface WalletSetupModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (wallet: any) => void;
+  onSave: (wallet: Omit<Wallet, 'id' | 'balance'>) => void;
 }
 
 const WalletSetupModal: React.FC<WalletSetupModalProps> = ({ isOpen, onClose, onSave }) => {
   if (!isOpen) return null;
 
-  const handleSave = async (wallet: any) => {
-    console.log('WalletSetupModal: Saving wallet', wallet);
-    await onSave(wallet);
-    // Don't close the modal here, let the form handle it
+  const handleSave = async (walletData: Omit<Wallet, 'id' | 'balance'>) => {
+    console.log('WalletSetupModal: Saving wallet', walletData);
+    await onSave(walletData);
+    onClose(); // Close the modal after saving
   };
 
   return (

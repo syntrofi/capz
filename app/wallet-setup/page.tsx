@@ -4,12 +4,13 @@ import React from 'react';
 import WalletSetupForm from '@/components/WalletSetupForm';
 import { useRouter } from 'next/navigation';
 import { walletStorage } from '@/services/localStorage';
+import { Wallet } from '@/types/types';
 
 export default function WalletSetupPage() {
   const router = useRouter();
 
-  const handleSave = (wallet: any) => {
-    walletStorage.saveWallet(wallet);
+  const handleSave = (walletData: Omit<Wallet, 'id' | 'balance'>) => {
+    walletStorage.saveWallet(walletData);
     router.push('/accounts');
   };
 

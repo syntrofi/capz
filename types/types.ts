@@ -3,7 +3,9 @@ export interface Wallet {
   name: string;
   targetIncome: number;
   timeFrame: string;
-  address: string;
+  accountAddress: string;
+  withdrawalAddress: string;
   redistributionStrategy: string;
   balance: number;
+  stakeholder: string;
 }

@@ -2,21 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 import { FaCopy } from 'react-icons/fa';
 import CircularGauge from './CircularGauge';
+import { Wallet } from '../types/types';
 
 interface AccountCardProps {
-  wallet: {
-    id: string;
-    name: string;
-    targetIncome: number;
-    timeFrame: string;
-    address: string;
-    income?: number; // Make income optional
-    balance?: number; // Add balance as an optional property
-  };
+  wallet: Wallet;
 }
 
 const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
-  const { id, name, targetIncome, timeFrame, address, income, balance } = wallet;
+  const { id, name, targetIncome, timeFrame, accountAddress, income, balance } = wallet;
 
   // Use income if available, otherwise use balance
   const currentIncome = income !== undefined ? income : (balance || 0);
@@ -68,9 +61,9 @@ const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <p className="text-sm text-gray-400 mr-2">Address:</p>
-          <p className="text-base text-white mr-2">{formatAddress(address)}</p>
+          <p className="text-base text-white mr-2">{formatAddress(accountAddress)}</p>
           <button
-            onClick={() => copyToClipboard(address)}
+            onClick={() => copyToClipboard(accountAddress)}
             className="bg-gray-700 text-white p-2 rounded hover:bg-gray-600 transition duration-300"
             aria-label="Copy address"
           >
