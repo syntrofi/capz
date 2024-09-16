@@ -28,8 +28,24 @@ const AccountsPage: React.FC = () => {
     setWallets(loadedWallets);
   }, []);
 
+  
+ // For Demo purposes, update the balance every 5 seconds
   useEffect(() => {
-    console.log('Wallets state updated:', wallets);
+    const timer = setInterval(() => {
+      setWallets(prevWallets =>
+        prevWallets.map(wallet => ({
+          ...wallet,
+          balance: wallet.balance + 50
+        }))
+      );
+    }, 5000); // Update every 5 seconds
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    // Save updated wallets to localStorage whenever they change
+    walletStorage.saveAllWallets(wallets);
   }, [wallets]);
 
   const openModal = () => setIsModalOpen(true);
@@ -39,12 +55,7 @@ const AccountsPage: React.FC = () => {
     console.log('Adding new wallet:', newWallet);
     const savedWallet = await walletStorage.saveWallet(newWallet);
     console.log('Saved wallet:', savedWallet);
-    setWallets(prevWallets => {
-      const updatedWallets = [...prevWallets, savedWallet];
-      console.log('Updated wallets:', updatedWallets);
-      return updatedWallets;
-    });
-    // Don't close the modal here, let the form handle it
+    setWallets(prevWallets => [...prevWallets, savedWallet]);
   };
 
   const clearStorage = () => {
