@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUsers, FaUserFriends, FaCode, FaCheckCircle } from 'react-icons/fa';
 
 type TimeFrame = 'monthly' | 'quarterly' | 'yearly';
@@ -29,6 +29,11 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
     address: '',
     redistributionStrategy: 'all-above-threshold',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    console.log('Current step:', step);
+  }, [step]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -39,17 +44,34 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
     setFormState(prev => ({ ...prev, stakeholder }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (step < 3) {
+    console.log('Form submitted, current step:', step);
+    if (step < 2) {
+      console.log('Moving to next step');
       setStep(step + 1);
-    } else {
-      onSave({
-        ...formState,
-        targetIncome: parseFloat(formState.targetIncome),
-      });
+    } else if (step === 2) {
+      console.log('Submitting form with state:', formState);
+      setIsSubmitting(true);
+      try {
+        await onSave({
+          ...formState,
+          targetIncome: parseFloat(formState.targetIncome),
+        });
+        console.log('Wallet saved successfully');
+        setStep(3); // Move to success screen
+      } catch (error) {
+        console.error('Error saving wallet:', error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
+
+  // Add this function if not already present
+  function generateRandomEthAddress(): string {
+    return `0x${Array.from({length: 40}, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
+  }
 
   const renderStepOne = () => (
     <>
@@ -90,6 +112,7 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
             onChange={handleChange}
             className="input input-bordered"
             required
+            autoComplete="off"
           />
         </div>
 
@@ -105,6 +128,7 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
             onChange={handleChange}
             className="input input-bordered"
             required
+            autoComplete="off"
           />
         </div>
 
@@ -138,6 +162,7 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
             onChange={handleChange}
             className="input input-bordered"
             required
+            autoComplete="off"
           />
         </div>
 
@@ -163,10 +188,8 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
 
   const renderStepThree = () => (
     <div className="text-center">
-      <h2 className="text-2xl font-bold mb-4">Account successfully created</h2>
-      <FaCheckCircle className="text-6xl text-success mx-auto mb-4" />
-      <p className="mb-2">Your smart account has been created under this address</p>
-      <p className="font-mono bg-base-300 p-2 rounded">{formState.address || '0x1234...5678'}</p>
+      <h2 className="text-2xl font-bold mb-4">Account Created Successfully!</h2>
+      <p className="mb-4">Your new wallet has been set up.</p>
     </div>
   );
 
@@ -179,11 +202,11 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
       <div className="flex justify-between mt-6">
         {step < 3 && (
           <>
-            <button type="button" onClick={onClose} className="btn btn-outline">
+            <button type="button" onClick={onClose} className="btn btn-outline" disabled={isSubmitting}>
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary">
-              {step === 2 ? 'Create Account' : 'Next'}
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+              {step === 2 ? (isSubmitting ? 'Creating...' : 'Create Account') : 'Next'}
             </button>
           </>
         )}

@@ -12,8 +12,12 @@ const STORAGE_KEY = 'capz_wallets';
 
 export const walletStorage = {
   getWallets: (): Wallet[] => {
-    const wallets = localStorage.getItem(STORAGE_KEY);
-    return wallets ? JSON.parse(wallets) : [];
+    if (typeof window === 'undefined') return [];
+    const wallets = window.localStorage.getItem(STORAGE_KEY);
+    console.log('Raw wallets from localStorage:', wallets);
+    const parsedWallets = wallets ? JSON.parse(wallets) : [];
+    console.log('Parsed wallets:', parsedWallets);
+    return parsedWallets;
   },
 
   saveWallet: (wallet: Omit<Wallet, 'id' | 'balance'>): Wallet => {
@@ -21,29 +25,22 @@ export const walletStorage = {
     const newWallet: Wallet = {
       ...wallet,
       id: Date.now().toString(),
-      balance: 0, // Initialize balance to 0
+      balance: 0,
     };
     wallets.push(newWallet);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(wallets));
+    console.log('Saving wallets:', wallets);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(wallets));
+      console.log('Wallets saved successfully');
+    } catch (error) {
+      console.error('Error saving wallets:', error);
+    }
     return newWallet;
   },
 
-  updateWallet: (wallet: Wallet): void => {
-    const wallets = walletStorage.getWallets();
-    const index = wallets.findIndex(w => w.id === wallet.id);
-    if (index !== -1) {
-      wallets[index] = wallet;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(wallets));
-    }
-  },
-
-  deleteWallet: (id: string): void => {
-    const wallets = walletStorage.getWallets();
-    const updatedWallets = wallets.filter(w => w.id !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedWallets));
-  },
-
   clearWallets: (): void => {
-    localStorage.removeItem(STORAGE_KEY);
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(STORAGE_KEY);
+    }
   }
 };
