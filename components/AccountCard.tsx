@@ -10,18 +10,27 @@ interface AccountCardProps {
     targetIncome: number;
     timeFrame: string;
     address: string;
-    balance: number;
-    cumulativeIncome: number;
+    income?: number; // Make income optional
+    balance?: number; // Add balance as an optional property
   };
 }
 
 const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
-  const { id, name, targetIncome, timeFrame, address, balance, cumulativeIncome } = wallet;
+  const { id, name, targetIncome, timeFrame, address, income, balance } = wallet;
 
-  const gaugePercentage = (balance / targetIncome) * 100;
-  const distributed = Math.max(0, cumulativeIncome - targetIncome);
+  // Use income if available, otherwise use balance
+  const currentIncome = income !== undefined ? income : (balance || 0);
+
+  const gaugePercentage = (currentIncome / targetIncome) * 100;
+  
+  // Calculate distributed as Income - Target
+  const distributed = Math.max(0, currentIncome - targetIncome);
 
   const formatCurrency = (amount: number) => {
+    if (typeof amount !== 'number' || isNaN(amount)) {
+      console.error('Invalid amount for formatCurrency:', amount);
+      return 'N/A';
+    }
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
   };
 
@@ -43,8 +52,8 @@ const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
         </div>
         <div className="w-1/2 flex flex-col justify-center pl-6">
           <div className="mb-2">
-            <p className="text-base text-gray-400">Balance:</p>
-            <p className="text-lg font-semibold text-white">{formatCurrency(balance)}</p>
+            <p className="text-base text-gray-400">Income:</p>
+            <p className="text-lg font-semibold text-white">{formatCurrency(currentIncome)}</p>
           </div>
           <div className="mb-2">
             <p className="text-base text-gray-400">Target:</p>
