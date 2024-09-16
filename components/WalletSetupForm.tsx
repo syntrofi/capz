@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaUsers, FaUserFriends, FaCode, FaCheckCircle } from 'react-icons/fa';
 import { ethers } from 'ethers';
+import { Wallet } from '@/types/types';
 
 type TimeFrame = 'monthly' | 'quarterly' | 'yearly';
 type RedistributionStrategy = 'all-above-threshold' | 'participatory-growth';
@@ -17,7 +18,7 @@ interface WalletSetupFormState {
 
 interface WalletSetupFormProps {
   onClose: () => void;
-  onSave: (wallet: Omit<WalletSetupFormState, 'targetIncome'> & { targetIncome: number, accountAddress: string }) => void;
+  onSave: (wallet: Omit<Wallet, 'id' | 'balance'>) => void;
 }
 
 const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) => {
@@ -59,6 +60,7 @@ const WalletSetupForm: React.FC<WalletSetupFormProps> = ({ onClose, onSave }) =>
         ...formState,
         targetIncome: targetIncomeNumber,
         accountAddress,
+        stakeholder: formState.stakeholder || '', // Ensure stakeholder is never null
       });
 
       // Close the form after saving

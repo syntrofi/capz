@@ -5,17 +5,7 @@ import AccountCard from '@/components/AccountCard';
 import WalletSetupModal from '@/components/WalletSetupModal';
 import { walletStorage } from '@/services/localStorage';
 import { useRouter } from 'next/navigation';
-
-// Define the Wallet type
-interface Wallet {
-  id: string;
-  name: string;
-  targetIncome: number;
-  timeFrame: string;
-  address: string;
-  redistributionStrategy: string;
-  balance: number;
-}
+import { Wallet } from '@/types/types';  // Add this import at the top of the file
 
 const AccountsPage: React.FC = () => {
   const [wallets, setWallets] = useState<Wallet[]>([]);

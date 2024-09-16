@@ -7,5 +7,5 @@ export interface Wallet {
   withdrawalAddress: string;
   redistributionStrategy: string;
   balance: number;
-  stakeholder: string;
+  stakeholder: string; // Ensure this is not optional
 }

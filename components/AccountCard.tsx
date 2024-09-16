@@ -2,17 +2,17 @@ import React from 'react';
 import Link from 'next/link';
 import { FaCopy } from 'react-icons/fa';
 import CircularGauge from './CircularGauge';
-import { Wallet } from '../types/types';
+import { Wallet } from '@/types/types';
 
 interface AccountCardProps {
   wallet: Wallet;
 }
 
 const AccountCard: React.FC<AccountCardProps> = ({ wallet }) => {
-  const { id, name, targetIncome, timeFrame, accountAddress, income, balance } = wallet;
+  const { id, name, targetIncome, timeFrame, accountAddress, balance } = wallet;
 
-  // Use income if available, otherwise use balance
-  const currentIncome = income !== undefined ? income : (balance || 0);
+  // Use balance as currentIncome since income is not available in the Wallet type
+  const currentIncome = balance || 0;
 
   const gaugePercentage = (currentIncome / targetIncome) * 100;
   
