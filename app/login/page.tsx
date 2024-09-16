@@ -1,10 +1,13 @@
-import React from 'react';
 import LoginForm from '@/components/LoginForm';
 
-export default function LoginPage() {
+const LoginPage: React.FC = () => {
   return (
-    <div className="min-h-screen">
-      <LoginForm />
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-grow">
+        <LoginForm />
+      </main>
     </div>
   );
-}
+};
+
+export default LoginPage;
