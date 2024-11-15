@@ -1,15 +1,19 @@
 # System Architecture
 
 ## Overview
+
 Capz enables businesses to automatically redistribute income to stakeholders (customers, employees, or open source projects) when receiving payments. The system creates smart contracts that handle the redistribution logic based on predefined thresholds and rules.
 
 ## User Types
+
 1. **Business Owner**
+
    - Creates and manages smart accounts
    - Sets redistribution parameters
    - Receives funds up to threshold
 
 2. **Customers**
+
    - Send payments to smart account addresses
    - Become stakeholders eligible for redistribution
 
@@ -57,6 +61,7 @@ graph TD
 ## Technology Stack
 
 ### Frontend Stack
+
 - **Next.js**: Server-rendered React application
 - **Wagmi/Viem**: Web3 interactions
 - **Web3Modal**: Wallet connections with email login support
@@ -64,42 +69,164 @@ graph TD
 - **The Graph**: Data indexing client
 
 ### Backend Stack
+
 - **Fastify**: API server with TypeScript support
 - **Supabase**: Database, auth, and real-time updates
 - **TypeScript**: Type safety across the stack
 
 ### Smart Contract Stack
+
 - **Hardhat**: Development & testing
 - **OpenZeppelin**: Contract primitives
 - **The Graph**: Indexing and events
 
 ## Smart Contract System
 
+### Factory Pattern Implementation
+
 ```solidity
-// Factory creates individual smart accounts
+// SPDX-License-Identifier: MIT
 contract CapzFactory {
-    function createSmartAccount(
-        address owner,
+    // Track all deployed wallets
+    mapping(address owner => address[] wallets) public ownerWallets;
+
+    // Implementation contract to clone
+    address public immutable implementation;
+
+    event WalletCreated(address indexed owner, address wallet);
+
+    constructor(address _implementation) {
+        implementation = _implementation;
+    }
+
+    function createWallet(
         uint256 threshold,
         uint256 periodDuration,
         uint256 startTime
-    ) external returns (address);
+    ) external returns (address wallet) {
+        // Clone the implementation contract (minimal proxy pattern)
+        wallet = Clones.clone(implementation);
+
+        // Initialize the new wallet
+        ICapzWallet(wallet).initialize(
+            msg.sender,
+            threshold,
+            periodDuration,
+            startTime
+        );
+
+        // Track the new wallet
+        ownerWallets[msg.sender].push(wallet);
+
+        emit WalletCreated(msg.sender, wallet);
+    }
 }
 
-// Individual smart account for each business
-contract CapzAccount {
-    struct Config {
-        address owner;           // Business owner
-        uint256 threshold;       // Amount before redistribution
-        uint256 periodDuration; // Daily/Monthly/Quarterly/Yearly
-        uint256 startTime;      // Period start
-        address[] stakeholders; // Redistribution recipients
-        uint256[] shares;       // Stakeholder shares
+// The actual wallet implementation
+contract CapzWallet is Initializable {
+    address public owner;
+    uint256 public threshold;
+    uint256 public periodDuration;
+    uint256 public startTime;
+
+    function initialize(
+        address _owner,
+        uint256 _threshold,
+        uint256 _periodDuration,
+        uint256 _startTime
+    ) external initializer {
+        owner = _owner;
+        threshold = _threshold;
+        periodDuration = _periodDuration;
+        startTime = _startTime;
     }
-    
-    receive() external payable;
-    function redistribute() internal;
-    function addStakeholder(address stakeholder, uint256 share) external;
+
+    // Rest of wallet logic...
+}
+```
+
+### Deployment Flow
+
+```mermaid
+sequenceDiagram
+    participant Owner
+    participant Factory
+    participant Implementation
+    participant NewWallet
+
+    Note over Owner,NewWallet: One-time deployment
+    Owner->>Implementation: Deploy Implementation Contract
+    Owner->>Factory: Deploy Factory with Implementation Address
+
+    Note over Owner,NewWallet: For each new wallet
+    Owner->>Factory: createWallet(params)
+    Factory->>NewWallet: Clone Implementation
+    Factory->>NewWallet: Initialize with params
+    Factory->>Factory: Track new wallet
+    Factory-->>Owner: Return wallet address
+```
+
+### Implementation Details
+
+1. **Factory Contract**
+
+   - Deployed once by Capz team
+   - Uses minimal proxy pattern (EIP-1167) for gas-efficient cloning
+   - Tracks all created wallets
+   - Emits events for indexing
+
+2. **Wallet Implementation**
+
+   - Single implementation contract
+   - Contains all wallet logic
+   - Used as template for cloning
+   - Upgradeable pattern for future updates
+
+3. **Individual Wallets**
+   - Cloned from implementation
+   - Initialized with owner's parameters
+   - Fully functional but minimal proxy
+   - Lower deployment costs
+
+### Deployment Process
+
+1. **Initial Setup (Done once by Capz)**
+
+```typescript
+// scripts/deploy.ts
+async function deploy() {
+  // Deploy implementation
+  const Implementation = await ethers.getContractFactory("CapzWallet");
+  const implementation = await Implementation.deploy();
+  await implementation.deployed();
+
+  // Deploy factory
+  const Factory = await ethers.getContractFactory("CapzFactory");
+  const factory = await Factory.deploy(implementation.address);
+  await factory.deployed();
+
+  return { implementation, factory };
+}
+```
+
+2. **Wallet Creation (For each user)**
+
+```typescript
+// frontend/src/hooks/useCreateWallet.ts
+export function useCreateWallet() {
+  const createWallet = async (params: WalletParams) => {
+    const factory = new Contract(FACTORY_ADDRESS, FACTORY_ABI);
+    const tx = await factory.createWallet(
+      params.threshold,
+      params.periodDuration,
+      params.startTime
+    );
+    const receipt = await tx.wait();
+    const event = receipt.events.find((e) => e.event === "WalletCreated");
+    return event.args.wallet; // New wallet address
+  };
+
+  return { createWallet };
 }
 ```
 
@@ -114,13 +241,13 @@ sequenceDiagram
     participant BusinessWallet
     participant Stakeholders
     participant Graph
-    
+
     Note over Customer,Graph: Payment Flow
     Customer->>SmartContract: Send Payment (ETH/ERC20)
     SmartContract->>SmartContract: Validate Payment
     SmartContract->>BusinessWallet: Forward up to threshold
     SmartContract->>SmartContract: Calculate excess
-    
+
     Note over Customer,Graph: Redistribution Flow
     SmartContract->>SmartContract: Check if threshold exceeded
     alt Threshold Exceeded
@@ -136,30 +263,9 @@ sequenceDiagram
     end
 ```
 
-## Development Phases
-
-### Phase 1: Core Payment Flow
-- Smart account creation
-- Basic payment receiving
-- Simple redistribution above threshold
-
-### Phase 2: Stakeholder Management
-- Stakeholder registration
-- Share calculation
-- Automated redistribution
-
-### Phase 3: Enhanced Features
-- Multiple token support
-- Advanced redistribution strategies
-- Historical data and analytics
-
 ## Security Considerations
+
 - Rate limiting for large transactions
 - Threshold change timelock
 - Stakeholder addition controls
 - Regular security audits
-
-## Future Extensions
-- Multiple redistribution strategies
-- Cross-chain compatibility
-- DAO governance options
