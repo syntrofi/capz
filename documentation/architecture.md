@@ -23,28 +23,57 @@ Capz enables businesses to automatically redistribute income to stakeholders (cu
 
 ```mermaid
 graph TD
-    A[Web Interface] --> B[Auth Layer]
-    B --> C[Smart Account Manager]
-    C --> D[Contract Factory]
-    D --> E[Individual Smart Accounts]
-    F[Payment Flow] --> E
-    E --> G[Redistribution Engine]
-    H[The Graph] --> E
-    
-    subgraph Users
-        I[Business Owner]
-        J[Customers]
-        K[Stakeholders]
+    A[Frontend] --> B[Backend]
+    B --> C[Database]
+    D[Blockchain] --> B
+
+    subgraph Frontend Stack
+        A1[Next.js]
+        A2[Wagmi/Viem]
+        A3[Web3Modal]
+        A4[TailwindCSS]
     end
-    
-    I --> A
-    J --> F
-    E --> K
+
+    subgraph Backend Stack
+        B1[Fastify]
+        B2[TypeScript]
+        B3[Supabase Client]
+    end
+
+    subgraph Database
+        C1[Supabase]
+        C2[PostgreSQL]
+        C3[Real-time]
+        C4[Auth]
+    end
+
+    subgraph Blockchain Stack
+        D1[Hardhat]
+        D2[OpenZeppelin]
+        D3[The Graph]
+    end
 ```
 
-## Core Components
+## Technology Stack
 
-### 1. Smart Contract System
+### Frontend Stack
+- **Next.js**: Server-rendered React application
+- **Wagmi/Viem**: Web3 interactions
+- **Web3Modal**: Wallet connections with email login support
+- **TailwindCSS**: Styling
+- **The Graph**: Data indexing client
+
+### Backend Stack
+- **Fastify**: API server with TypeScript support
+- **Supabase**: Database, auth, and real-time updates
+- **TypeScript**: Type safety across the stack
+
+### Smart Contract Stack
+- **Hardhat**: Development & testing
+- **OpenZeppelin**: Contract primitives
+- **The Graph**: Indexing and events
+
+## Smart Contract System
 
 ```solidity
 // Factory creates individual smart accounts
@@ -68,54 +97,44 @@ contract CapzAccount {
         uint256[] shares;       // Stakeholder shares
     }
     
-    // Receive payments from customers
     receive() external payable;
-    
-    // Automatic redistribution when threshold is met
     function redistribute() internal;
-    
-    // Add stakeholders (e.g., after customer purchase)
     function addStakeholder(address stakeholder, uint256 share) external;
 }
 ```
 
-### 2. Frontend Stack
-- **Next.js**: Server-rendered React for business dashboard
-- **Wagmi/Viem**: Web3 interactions and wallet connections
-- **The Graph**: Index smart account events and history
-
-### 3. Payment Flow
+## Payment & Redistribution Flow
 
 ```mermaid
 sequenceDiagram
-    participant Customer
-    participant SmartAccount
+    actor Customer
+    participant UI
+    participant Backend
+    participant SmartContract
     participant BusinessWallet
     participant Stakeholders
+    participant Graph
     
-    Customer->>SmartAccount: Send Payment
-    SmartAccount->>BusinessWallet: Forward up to threshold
-    SmartAccount->>SmartAccount: Check threshold
-    SmartAccount->>Stakeholders: Redistribute excess
-    SmartAccount->>Graph: Emit events
+    Note over Customer,Graph: Payment Flow
+    Customer->>SmartContract: Send Payment (ETH/ERC20)
+    SmartContract->>SmartContract: Validate Payment
+    SmartContract->>BusinessWallet: Forward up to threshold
+    SmartContract->>SmartContract: Calculate excess
+    
+    Note over Customer,Graph: Redistribution Flow
+    SmartContract->>SmartContract: Check if threshold exceeded
+    alt Threshold Exceeded
+        SmartContract->>SmartContract: Calculate shares
+        SmartContract->>Stakeholders: Distribute excess
+        SmartContract->>Graph: Emit RedistributionEvent
+        Graph->>Backend: Index event
+        Backend->>UI: Update dashboard
+    else Below Threshold
+        SmartContract->>Graph: Emit PaymentEvent
+        Graph->>Backend: Index event
+        Backend->>UI: Update dashboard
+    end
 ```
-
-## Key Technical Decisions
-
-1. **Smart Account Implementation**
-   - Custom contracts (not smart wallets) for gas optimization
-   - Simple proxy pattern for potential upgrades
-   - Event-driven for tracking payments and redistributions
-
-2. **Stakeholder Management**
-   - On-chain stakeholder registry
-   - Efficient batch updates for multiple stakeholders
-   - Share calculation based on contribution
-
-3. **Payment Processing**
-   - Support for ETH and common ERC20 tokens
-   - Automatic threshold checking
-   - Gas-optimized redistribution
 
 ## Development Phases
 
