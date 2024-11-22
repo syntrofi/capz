@@ -1,0 +1,44 @@
+{
+  "name": "se-2",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/hardhat",
+    "packages/nextjs"
+  ],
+  "scripts": {
+    "account": "pnpm --filter @se-2/hardhat account",
+    "chain": "pnpm --filter @se-2/hardhat chain",
+    "fork": "pnpm --filter @se-2/hardhat fork",
+    "deploy": "pnpm --filter @se-2/hardhat deploy",
+    "verify": "pnpm --filter @se-2/hardhat verify",
+    "hardhat-verify": "pnpm --filter @se-2/hardhat hardhat-verify",
+    "compile": "pnpm --filter @se-2/hardhat compile",
+    "generate": "pnpm --filter @se-2/hardhat generate",
+    "flatten": "pnpm --filter @se-2/hardhat flatten",
+    "hardhat:lint": "pnpm --filter @se-2/hardhat lint",
+    "hardhat:lint-staged": "pnpm --filter @se-2/hardhat lint-staged",
+    "hardhat:format": "pnpm --filter @se-2/hardhat format",
+    "hardhat:check-types": "pnpm --filter @se-2/hardhat check-types",
+    "hardhat:test": "pnpm --filter @se-2/hardhat test",
+    "test": "pnpm hardhat:test",
+    "format": "pnpm next:format && pnpm hardhat:format",
+    "start": "pnpm --filter @se-2/nextjs dev",
+    "next:lint": "pnpm --filter @se-2/nextjs lint",
+    "next:format": "pnpm --filter @se-2/nextjs format",
+    "next:check-types": "pnpm --filter @se-2/nextjs check-types",
+    "next:build": "pnpm --filter @se-2/nextjs build",
+    "next:serve": "pnpm --filter @se-2/nextjs serve",
+    "postinstall": "husky",
+    "precommit": "lint-staged",
+    "vercel": "pnpm --filter @se-2/nextjs vercel",
+    "vercel:yolo": "pnpm --filter @se-2/nextjs vercel:yolo"
+  },
+  "devDependencies": {
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}
