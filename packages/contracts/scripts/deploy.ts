@@ -2,35 +2,33 @@ import hre from "hardhat";
 import { getAddress } from "viem";
 
 async function main() {
-  // Get test accounts
   const [deployer] = await hre.viem.getWalletClients();
   console.log("Deploying contracts with account:", deployer.account.address);
 
   // Deploy implementation
-  const capzWallet = await hre.viem.deployContract("CapzWallet");
-  console.log("CapzWallet implementation deployed to:", capzWallet.address);
+  const smartAccount = await hre.viem.deployContract("SmartAccount");
+  console.log("SmartAccount implementation deployed to:", smartAccount.address);
 
   // Deploy factory
-  const capzFactory = await hre.viem.deployContract("CapzFactory", [
-    getAddress(capzWallet.address)
+  const smartAccountFactory = await hre.viem.deployContract("SmartAccountFactory", [
+    getAddress(smartAccount.address)
   ]);
-  console.log("CapzFactory deployed to:", capzFactory.address);
+  console.log("SmartAccountFactory deployed to:", smartAccountFactory.address);
 
-  // Create a test wallet
-  const tx = await capzFactory.write.createWallet([
+  // Create a test account
+  const tx = await smartAccountFactory.write.createAccount([
     BigInt(1e18), // 1 ETH threshold
     86400n,      // 1 day period
     deployer.account.address
   ]);
   
-  const receipt = await capzFactory.waitForTransactionReceipt({ hash: tx });
-  console.log("Test wallet created, transaction:", receipt.transactionHash);
+  const receipt = await smartAccountFactory.waitForTransactionReceipt({ hash: tx });
+  console.log("Test account created, transaction:", receipt.transactionHash);
 
-  // Log all addresses for testing
   console.log("\nDeployed Contracts:");
   console.log("-------------------");
-  console.log("Implementation:", capzWallet.address);
-  console.log("Factory:", capzFactory.address);
+  console.log("Implementation:", smartAccount.address);
+  console.log("Factory:", smartAccountFactory.address);
   console.log("\nSave these addresses for testing!");
 }
 
