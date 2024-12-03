@@ -1,0 +1,328 @@
+{
+  "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_implementation",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "FailedDeployment",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "needed",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsufficientBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidImplementation",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidPeriod",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidThreshold",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidWithdrawalAddress",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "AccountCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "clone",
+          "type": "address"
+        }
+      ],
+      "name": "CloneCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "clone",
+          "type": "address"
+        }
+      ],
+      "name": "InitializationStarted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "clone",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "period",
+          "type": "uint256"
+        }
+      ],
+      "name": "PeriodSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "clone",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "stakeholder",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "share",
+          "type": "uint256"
+        }
+      ],
+      "name": "StakeholderAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "clone",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "threshold",
+          "type": "uint256"
+        }
+      ],
+      "name": "ThresholdSet",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "threshold",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "period",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "withdrawalAddress",
+          "type": "address"
+        }
+      ],
+      "name": "createAccount",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "getAccounts",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "implementation",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownerAccounts",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "accounts",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x2cd21558c55adcbb45b1dc1ca91fd69b053fe1dc27aaf6fb8d7da386f2dfadff",
+  "receipt": {
+    "to": null,
+    "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "contractAddress": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+    "transactionIndex": 0,
+    "gasUsed": "689333",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x928f1dc73fdd7ef3202ea6e798972c6bacd14255ee4f710181a856e29c230f3a",
+    "transactionHash": "0x2cd21558c55adcbb45b1dc1ca91fd69b053fe1dc27aaf6fb8d7da386f2dfadff",
+    "logs": [],
+    "blockNumber": 14,
+    "cumulativeGasUsed": "689333",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "2ad10510f9db5dc3d260a2d41105a6c2",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_implementation\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"FailedDeployment\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"needed\",\"type\":\"uint256\"}],\"name\":\"InsufficientBalance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidImplementation\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidPeriod\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidThreshold\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidWithdrawalAddress\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"AccountCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"clone\",\"type\":\"address\"}],\"name\":\"CloneCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"clone\",\"type\":\"address\"}],\"name\":\"InitializationStarted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"clone\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"period\",\"type\":\"uint256\"}],\"name\":\"PeriodSet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"clone\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"stakeholder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"share\",\"type\":\"uint256\"}],\"name\":\"StakeholderAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"clone\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"threshold\",\"type\":\"uint256\"}],\"name\":\"ThresholdSet\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"threshold\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"period\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"withdrawalAddress\",\"type\":\"address\"}],\"name\":\"createAccount\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"getAccounts\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"implementation\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ownerAccounts\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"accounts\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"FailedDeployment()\":[{\"details\":\"The deployment failed.\"}],\"InsufficientBalance(uint256,uint256)\":[{\"details\":\"The ETH balance of the account is not enough to perform the operation.\"}]},\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/SmartAccountFactory.sol\":\"SmartAccountFactory\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {ContextUpgradeable} from \\\"../utils/ContextUpgradeable.sol\\\";\\nimport {Initializable} from \\\"../proxy/utils/Initializable.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract OwnableUpgradeable is Initializable, ContextUpgradeable {\\n    /// @custom:storage-location erc7201:openzeppelin.storage.Ownable\\n    struct OwnableStorage {\\n        address _owner;\\n    }\\n\\n    // keccak256(abi.encode(uint256(keccak256(\\\"openzeppelin.storage.Ownable\\\")) - 1)) & ~bytes32(uint256(0xff))\\n    bytes32 private constant OwnableStorageLocation = 0x9016d09d72d40fdae2fd8ceac6b6234c7706214fd39c1cd1e609a0528c199300;\\n\\n    function _getOwnableStorage() private pure returns (OwnableStorage storage $) {\\n        assembly {\\n            $.slot := OwnableStorageLocation\\n        }\\n    }\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    function __Ownable_init(address initialOwner) internal onlyInitializing {\\n        __Ownable_init_unchained(initialOwner);\\n    }\\n\\n    function __Ownable_init_unchained(address initialOwner) internal onlyInitializing {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        OwnableStorage storage $ = _getOwnableStorage();\\n        return $._owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        OwnableStorage storage $ = _getOwnableStorage();\\n        address oldOwner = $._owner;\\n        $._owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xc163fcf9bb10138631a9ba5564df1fa25db9adff73bd9ee868a8ae1858fe093a\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (proxy/utils/Initializable.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed\\n * behind a proxy. Since proxied contracts do not make use of a constructor, it's common to move constructor logic to an\\n * external initializer function, usually called `initialize`. It then becomes necessary to protect this initializer\\n * function so it can only be called once. The {initializer} modifier provided by this contract will have this effect.\\n *\\n * The initialization functions use a version number. Once a version number is used, it is consumed and cannot be\\n * reused. This mechanism prevents re-execution of each \\\"step\\\" but allows the creation of new initialization steps in\\n * case an upgrade adds a module that needs to be initialized.\\n *\\n * For example:\\n *\\n * [.hljs-theme-light.nopadding]\\n * ```solidity\\n * contract MyToken is ERC20Upgradeable {\\n *     function initialize() initializer public {\\n *         __ERC20_init(\\\"MyToken\\\", \\\"MTK\\\");\\n *     }\\n * }\\n *\\n * contract MyTokenV2 is MyToken, ERC20PermitUpgradeable {\\n *     function initializeV2() reinitializer(2) public {\\n *         __ERC20Permit_init(\\\"MyToken\\\");\\n *     }\\n * }\\n * ```\\n *\\n * TIP: To avoid leaving the proxy in an uninitialized state, the initializer function should be called as early as\\n * possible by providing the encoded function call as the `_data` argument to {ERC1967Proxy-constructor}.\\n *\\n * CAUTION: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or to ensure\\n * that all initializers are idempotent. This is not verified automatically as constructors are by Solidity.\\n *\\n * [CAUTION]\\n * ====\\n * Avoid leaving a contract uninitialized.\\n *\\n * An uninitialized contract can be taken over by an attacker. This applies to both a proxy and its implementation\\n * contract, which may impact the proxy. To prevent the implementation contract from being used, you should invoke\\n * the {_disableInitializers} function in the constructor to automatically lock it when it is deployed:\\n *\\n * [.hljs-theme-light.nopadding]\\n * ```\\n * /// @custom:oz-upgrades-unsafe-allow constructor\\n * constructor() {\\n *     _disableInitializers();\\n * }\\n * ```\\n * ====\\n */\\nabstract contract Initializable {\\n    /**\\n     * @dev Storage of the initializable contract.\\n     *\\n     * It's implemented on a custom ERC-7201 namespace to reduce the risk of storage collisions\\n     * when using with upgradeable contracts.\\n     *\\n     * @custom:storage-location erc7201:openzeppelin.storage.Initializable\\n     */\\n    struct InitializableStorage {\\n        /**\\n         * @dev Indicates that the contract has been initialized.\\n         */\\n        uint64 _initialized;\\n        /**\\n         * @dev Indicates that the contract is in the process of being initialized.\\n         */\\n        bool _initializing;\\n    }\\n\\n    // keccak256(abi.encode(uint256(keccak256(\\\"openzeppelin.storage.Initializable\\\")) - 1)) & ~bytes32(uint256(0xff))\\n    bytes32 private constant INITIALIZABLE_STORAGE = 0xf0c57e16840df040f15088dc2f81fe391c3923bec73e23a9662efc9c229c6a00;\\n\\n    /**\\n     * @dev The contract is already initialized.\\n     */\\n    error InvalidInitialization();\\n\\n    /**\\n     * @dev The contract is not initializing.\\n     */\\n    error NotInitializing();\\n\\n    /**\\n     * @dev Triggered when the contract has been initialized or reinitialized.\\n     */\\n    event Initialized(uint64 version);\\n\\n    /**\\n     * @dev A modifier that defines a protected initializer function that can be invoked at most once. In its scope,\\n     * `onlyInitializing` functions can be used to initialize parent contracts.\\n     *\\n     * Similar to `reinitializer(1)`, except that in the context of a constructor an `initializer` may be invoked any\\n     * number of times. This behavior in the constructor can be useful during testing and is not expected to be used in\\n     * production.\\n     *\\n     * Emits an {Initialized} event.\\n     */\\n    modifier initializer() {\\n        // solhint-disable-next-line var-name-mixedcase\\n        InitializableStorage storage $ = _getInitializableStorage();\\n\\n        // Cache values to avoid duplicated sloads\\n        bool isTopLevelCall = !$._initializing;\\n        uint64 initialized = $._initialized;\\n\\n        // Allowed calls:\\n        // - initialSetup: the contract is not in the initializing state and no previous version was\\n        //                 initialized\\n        // - construction: the contract is initialized at version 1 (no reininitialization) and the\\n        //                 current contract is just being deployed\\n        bool initialSetup = initialized == 0 && isTopLevelCall;\\n        bool construction = initialized == 1 && address(this).code.length == 0;\\n\\n        if (!initialSetup && !construction) {\\n            revert InvalidInitialization();\\n        }\\n        $._initialized = 1;\\n        if (isTopLevelCall) {\\n            $._initializing = true;\\n        }\\n        _;\\n        if (isTopLevelCall) {\\n            $._initializing = false;\\n            emit Initialized(1);\\n        }\\n    }\\n\\n    /**\\n     * @dev A modifier that defines a protected reinitializer function that can be invoked at most once, and only if the\\n     * contract hasn't been initialized to a greater version before. In its scope, `onlyInitializing` functions can be\\n     * used to initialize parent contracts.\\n     *\\n     * A reinitializer may be used after the original initialization step. This is essential to configure modules that\\n     * are added through upgrades and that require initialization.\\n     *\\n     * When `version` is 1, this modifier is similar to `initializer`, except that functions marked with `reinitializer`\\n     * cannot be nested. If one is invoked in the context of another, execution will revert.\\n     *\\n     * Note that versions can jump in increments greater than 1; this implies that if multiple reinitializers coexist in\\n     * a contract, executing them in the right order is up to the developer or operator.\\n     *\\n     * WARNING: Setting the version to 2**64 - 1 will prevent any future reinitialization.\\n     *\\n     * Emits an {Initialized} event.\\n     */\\n    modifier reinitializer(uint64 version) {\\n        // solhint-disable-next-line var-name-mixedcase\\n        InitializableStorage storage $ = _getInitializableStorage();\\n\\n        if ($._initializing || $._initialized >= version) {\\n            revert InvalidInitialization();\\n        }\\n        $._initialized = version;\\n        $._initializing = true;\\n        _;\\n        $._initializing = false;\\n        emit Initialized(version);\\n    }\\n\\n    /**\\n     * @dev Modifier to protect an initialization function so that it can only be invoked by functions with the\\n     * {initializer} and {reinitializer} modifiers, directly or indirectly.\\n     */\\n    modifier onlyInitializing() {\\n        _checkInitializing();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Reverts if the contract is not in an initializing state. See {onlyInitializing}.\\n     */\\n    function _checkInitializing() internal view virtual {\\n        if (!_isInitializing()) {\\n            revert NotInitializing();\\n        }\\n    }\\n\\n    /**\\n     * @dev Locks the contract, preventing any future reinitialization. This cannot be part of an initializer call.\\n     * Calling this in the constructor of a contract will prevent that contract from being initialized or reinitialized\\n     * to any version. It is recommended to use this to lock implementation contracts that are designed to be called\\n     * through proxies.\\n     *\\n     * Emits an {Initialized} event the first time it is successfully executed.\\n     */\\n    function _disableInitializers() internal virtual {\\n        // solhint-disable-next-line var-name-mixedcase\\n        InitializableStorage storage $ = _getInitializableStorage();\\n\\n        if ($._initializing) {\\n            revert InvalidInitialization();\\n        }\\n        if ($._initialized != type(uint64).max) {\\n            $._initialized = type(uint64).max;\\n            emit Initialized(type(uint64).max);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the highest version that has been initialized. See {reinitializer}.\\n     */\\n    function _getInitializedVersion() internal view returns (uint64) {\\n        return _getInitializableStorage()._initialized;\\n    }\\n\\n    /**\\n     * @dev Returns `true` if the contract is currently initializing. See {onlyInitializing}.\\n     */\\n    function _isInitializing() internal view returns (bool) {\\n        return _getInitializableStorage()._initializing;\\n    }\\n\\n    /**\\n     * @dev Returns a pointer to the storage namespace.\\n     */\\n    // solhint-disable-next-line var-name-mixedcase\\n    function _getInitializableStorage() private pure returns (InitializableStorage storage $) {\\n        assembly {\\n            $.slot := INITIALIZABLE_STORAGE\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x631188737069917d2f909d29ce62c4d48611d326686ba6683e26b72a23bfac0b\",\"license\":\"MIT\"},\"@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\nimport {Initializable} from \\\"../proxy/utils/Initializable.sol\\\";\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract ContextUpgradeable is Initializable {\\n    function __Context_init() internal onlyInitializing {\\n    }\\n\\n    function __Context_init_unchained() internal onlyInitializing {\\n    }\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0xdbef5f0c787055227243a7318ef74c8a5a1108ca3a07f2b3a00ef67769e1e397\",\"license\":\"MIT\"},\"@openzeppelin/contracts/proxy/Clones.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.1.0) (proxy/Clones.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Errors} from \\\"../utils/Errors.sol\\\";\\n\\n/**\\n * @dev https://eips.ethereum.org/EIPS/eip-1167[ERC-1167] is a standard for\\n * deploying minimal proxy contracts, also known as \\\"clones\\\".\\n *\\n * > To simply and cheaply clone contract functionality in an immutable way, this standard specifies\\n * > a minimal bytecode implementation that delegates all calls to a known, fixed address.\\n *\\n * The library includes functions to deploy a proxy using either `create` (traditional deployment) or `create2`\\n * (salted deterministic deployment). It also includes functions to predict the addresses of clones deployed using the\\n * deterministic method.\\n */\\nlibrary Clones {\\n    /**\\n     * @dev Deploys and returns the address of a clone that mimics the behaviour of `implementation`.\\n     *\\n     * This function uses the create opcode, which should never revert.\\n     */\\n    function clone(address implementation) internal returns (address instance) {\\n        return clone(implementation, 0);\\n    }\\n\\n    /**\\n     * @dev Same as {xref-Clones-clone-address-}[clone], but with a `value` parameter to send native currency\\n     * to the new contract.\\n     *\\n     * NOTE: Using a non-zero value at creation will require the contract using this function (e.g. a factory)\\n     * to always have enough balance for new deployments. Consider exposing this function under a payable method.\\n     */\\n    function clone(address implementation, uint256 value) internal returns (address instance) {\\n        if (address(this).balance < value) {\\n            revert Errors.InsufficientBalance(address(this).balance, value);\\n        }\\n        assembly (\\\"memory-safe\\\") {\\n            // Cleans the upper 96 bits of the `implementation` word, then packs the first 3 bytes\\n            // of the `implementation` address with the bytecode before the address.\\n            mstore(0x00, or(shr(0xe8, shl(0x60, implementation)), 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000))\\n            // Packs the remaining 17 bytes of `implementation` with the bytecode after the address.\\n            mstore(0x20, or(shl(0x78, implementation), 0x5af43d82803e903d91602b57fd5bf3))\\n            instance := create(value, 0x09, 0x37)\\n        }\\n        if (instance == address(0)) {\\n            revert Errors.FailedDeployment();\\n        }\\n    }\\n\\n    /**\\n     * @dev Deploys and returns the address of a clone that mimics the behaviour of `implementation`.\\n     *\\n     * This function uses the create2 opcode and a `salt` to deterministically deploy\\n     * the clone. Using the same `implementation` and `salt` multiple time will revert, since\\n     * the clones cannot be deployed twice at the same address.\\n     */\\n    function cloneDeterministic(address implementation, bytes32 salt) internal returns (address instance) {\\n        return cloneDeterministic(implementation, salt, 0);\\n    }\\n\\n    /**\\n     * @dev Same as {xref-Clones-cloneDeterministic-address-bytes32-}[cloneDeterministic], but with\\n     * a `value` parameter to send native currency to the new contract.\\n     *\\n     * NOTE: Using a non-zero value at creation will require the contract using this function (e.g. a factory)\\n     * to always have enough balance for new deployments. Consider exposing this function under a payable method.\\n     */\\n    function cloneDeterministic(\\n        address implementation,\\n        bytes32 salt,\\n        uint256 value\\n    ) internal returns (address instance) {\\n        if (address(this).balance < value) {\\n            revert Errors.InsufficientBalance(address(this).balance, value);\\n        }\\n        assembly (\\\"memory-safe\\\") {\\n            // Cleans the upper 96 bits of the `implementation` word, then packs the first 3 bytes\\n            // of the `implementation` address with the bytecode before the address.\\n            mstore(0x00, or(shr(0xe8, shl(0x60, implementation)), 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000))\\n            // Packs the remaining 17 bytes of `implementation` with the bytecode after the address.\\n            mstore(0x20, or(shl(0x78, implementation), 0x5af43d82803e903d91602b57fd5bf3))\\n            instance := create2(value, 0x09, 0x37, salt)\\n        }\\n        if (instance == address(0)) {\\n            revert Errors.FailedDeployment();\\n        }\\n    }\\n\\n    /**\\n     * @dev Computes the address of a clone deployed using {Clones-cloneDeterministic}.\\n     */\\n    function predictDeterministicAddress(\\n        address implementation,\\n        bytes32 salt,\\n        address deployer\\n    ) internal pure returns (address predicted) {\\n        assembly (\\\"memory-safe\\\") {\\n            let ptr := mload(0x40)\\n            mstore(add(ptr, 0x38), deployer)\\n            mstore(add(ptr, 0x24), 0x5af43d82803e903d91602b57fd5bf3ff)\\n            mstore(add(ptr, 0x14), implementation)\\n            mstore(ptr, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73)\\n            mstore(add(ptr, 0x58), salt)\\n            mstore(add(ptr, 0x78), keccak256(add(ptr, 0x0c), 0x37))\\n            predicted := and(keccak256(add(ptr, 0x43), 0x55), 0xffffffffffffffffffffffffffffffffffffffff)\\n        }\\n    }\\n\\n    /**\\n     * @dev Computes the address of a clone deployed using {Clones-cloneDeterministic}.\\n     */\\n    function predictDeterministicAddress(\\n        address implementation,\\n        bytes32 salt\\n    ) internal view returns (address predicted) {\\n        return predictDeterministicAddress(implementation, salt, address(this));\\n    }\\n}\\n\",\"keccak256\":\"0xf55d01dac75cffdabec6833a79bf3be0c108fc0db10e273daf7adfd3e9e59dae\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Errors.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.1.0) (utils/Errors.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Collection of common custom errors used in multiple contracts\\n *\\n * IMPORTANT: Backwards compatibility is not guaranteed in future versions of the library.\\n * It is recommended to avoid relying on the error API for critical functionality.\\n *\\n * _Available since v5.1._\\n */\\nlibrary Errors {\\n    /**\\n     * @dev The ETH balance of the account is not enough to perform the operation.\\n     */\\n    error InsufficientBalance(uint256 balance, uint256 needed);\\n\\n    /**\\n     * @dev A call to an address target failed. The target may have reverted.\\n     */\\n    error FailedCall();\\n\\n    /**\\n     * @dev The deployment failed.\\n     */\\n    error FailedDeployment();\\n\\n    /**\\n     * @dev A necessary precompile is missing.\\n     */\\n    error MissingPrecompile(address);\\n}\\n\",\"keccak256\":\"0x6afa713bfd42cf0f7656efa91201007ac465e42049d7de1d50753a373648c123\",\"license\":\"MIT\"},\"contracts/SmartAccount.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.24;\\n\\nimport \\\"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol\\\";\\nimport \\\"@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol\\\";\\n\\ncontract SmartAccount is Initializable, OwnableUpgradeable {\\n    uint256 public nextRedistributionTime;\\n    uint256 public redistributionPeriod;\\n    uint256 public threshold;\\n    address[] public stakeholders;\\n    mapping(address => uint256) public stakeholderShares;\\n    \\n    event RedistributionExecuted(uint256 amount, uint256 timestamp);\\n    event StakeholderAdded(address indexed stakeholder, uint256 share);\\n    event StakeholderRemoved(address indexed stakeholder);\\n    event ThresholdUpdated(uint256 newThreshold);\\n    event PeriodUpdated(uint256 newPeriod);\\n    \\n    error InvalidPeriod();\\n    error InvalidStakeholder();\\n    error InvalidShare();\\n    error StakeholderAlreadyExists();\\n    error StakeholderNotFound();\\n    error TooEarlyForRedistribution();\\n    error NoStakeholders();\\n    error BalanceBelowThreshold();\\n    error TransferFailed();\\n    \\n    /// @custom:oz-upgrades-unsafe-allow constructor\\n    constructor() {\\n        _disableInitializers();\\n    }\\n    \\n    function initialize(address initialOwner) public initializer {\\n        __Ownable_init(initialOwner);\\n        redistributionPeriod = 1 days; // Default period\\n        nextRedistributionTime = block.timestamp + redistributionPeriod;\\n    }\\n    \\n    // Owner-only configuration functions\\n    function setThreshold(uint256 _threshold) external onlyOwner {\\n        threshold = _threshold;\\n        emit ThresholdUpdated(_threshold);\\n    }\\n    \\n    function setRedistributionPeriod(uint256 _period) external onlyOwner {\\n        if(_period == 0) revert InvalidPeriod();\\n        redistributionPeriod = _period;\\n        nextRedistributionTime = block.timestamp + _period;\\n        emit PeriodUpdated(_period);\\n    }\\n    \\n    function addStakeholder(address stakeholder, uint256 share) external onlyOwner {\\n        if(stakeholder == address(0)) revert InvalidStakeholder();\\n        if(share == 0) revert InvalidShare();\\n        if(stakeholderShares[stakeholder] != 0) revert StakeholderAlreadyExists();\\n        \\n        stakeholders.push(stakeholder);\\n        stakeholderShares[stakeholder] = share;\\n        emit StakeholderAdded(stakeholder, share);\\n    }\\n    \\n    function removeStakeholder(address stakeholder) external onlyOwner {\\n        require(stakeholderShares[stakeholder] > 0, \\\"Not a stakeholder\\\");\\n        \\n        for (uint i = 0; i < stakeholders.length; i++) {\\n            if (stakeholders[i] == stakeholder) {\\n                stakeholders[i] = stakeholders[stakeholders.length - 1];\\n                stakeholders.pop();\\n                break;\\n            }\\n        }\\n        \\n        delete stakeholderShares[stakeholder];\\n        emit StakeholderRemoved(stakeholder);\\n    }\\n    \\n    // Public redistribution function - anyone can call\\n    function redistribute() public {\\n        require(block.timestamp >= nextRedistributionTime, \\\"Too early for redistribution\\\");\\n        require(stakeholders.length > 0, \\\"No stakeholders\\\");\\n        \\n        uint256 balance = address(this).balance;\\n        require(balance > threshold, \\\"Balance below threshold\\\");\\n        \\n        uint256 redistributionAmount = balance - threshold;\\n        \\n        // Calculate total shares\\n        uint256 totalShares = 0;\\n        for (uint i = 0; i < stakeholders.length; i++) {\\n            totalShares += stakeholderShares[stakeholders[i]];\\n        }\\n        \\n        // Distribute to stakeholders\\n        for (uint i = 0; i < stakeholders.length; i++) {\\n            address stakeholder = stakeholders[i];\\n            uint256 share = stakeholderShares[stakeholder];\\n            uint256 amount = (redistributionAmount * share) / totalShares;\\n            \\n            if (amount > 0) {\\n                (bool success, ) = stakeholder.call{value: amount}(\\\"\\\");\\n                require(success, \\\"Transfer failed\\\");\\n            }\\n        }\\n        \\n        nextRedistributionTime = block.timestamp + redistributionPeriod;\\n        emit RedistributionExecuted(redistributionAmount, block.timestamp);\\n    }\\n    \\n    // View functions\\n    function getStakeholders() external view returns (address[] memory) {\\n        return stakeholders;\\n    }\\n    \\n    function canRedistribute() public view returns (bool) {\\n        return block.timestamp >= nextRedistributionTime &&\\n               address(this).balance > threshold &&\\n               stakeholders.length > 0;\\n    }\\n    \\n    receive() external payable {}\\n}\\n\",\"keccak256\":\"0x21c4f62f6b9c920b62c78e719a36b0391106c2d0749393a0445c8d11d9cb0270\",\"license\":\"MIT\"},\"contracts/SmartAccountFactory.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.24;\\n\\nimport \\\"@openzeppelin/contracts/proxy/Clones.sol\\\";\\nimport \\\"./SmartAccount.sol\\\";\\n\\ncontract SmartAccountFactory {\\n    address public immutable implementation;\\n    mapping(address owner => address[] accounts) public ownerAccounts;\\n    \\n    event AccountCreated(address indexed owner, address account);\\n    event CloneCreated(address indexed clone);\\n    event InitializationStarted(address indexed clone);\\n    event ThresholdSet(address indexed clone, uint256 threshold);\\n    event PeriodSet(address indexed clone, uint256 period);\\n    event StakeholderAdded(address indexed clone, address stakeholder, uint256 share);\\n    \\n    error InvalidImplementation();\\n    error InvalidThreshold();\\n    error InvalidPeriod();\\n    error InvalidWithdrawalAddress();\\n    \\n    constructor(address _implementation) {\\n        if(_implementation == address(0)) revert InvalidImplementation();\\n        implementation = _implementation;\\n    }\\n    \\n    function createAccount(\\n        uint256 threshold,\\n        uint256 period,\\n        address withdrawalAddress\\n    ) external returns (address) {\\n        if(threshold == 0) revert InvalidThreshold();\\n        if(period == 0) revert InvalidPeriod();\\n        if(withdrawalAddress == address(0)) revert InvalidWithdrawalAddress();\\n        \\n        // Clone the implementation\\n        address payable clone = payable(Clones.clone(implementation));\\n        emit CloneCreated(clone);\\n        \\n        // Initialize with more granular error handling\\n        try SmartAccount(clone).initialize(msg.sender) {\\n            emit InitializationStarted(clone);\\n            \\n            try SmartAccount(clone).setThreshold(threshold) {\\n                emit ThresholdSet(clone, threshold);\\n                \\n                try SmartAccount(clone).setRedistributionPeriod(period) {\\n                    emit PeriodSet(clone, period);\\n                    \\n                    try SmartAccount(clone).addStakeholder(withdrawalAddress, 100) {\\n                        emit StakeholderAdded(clone, withdrawalAddress, 100);\\n                        \\n                        ownerAccounts[msg.sender].push(clone);\\n                        emit AccountCreated(msg.sender, clone);\\n                        return clone;\\n                    } catch Error(string memory reason) {\\n                        revert(string.concat(\\\"Failed to add stakeholder: \\\", reason));\\n                    } catch {\\n                        revert(\\\"Failed to add stakeholder (no reason)\\\");\\n                    }\\n                } catch Error(string memory reason) {\\n                    revert(string.concat(\\\"Failed to set period: \\\", reason));\\n                } catch {\\n                    revert(\\\"Failed to set period (no reason)\\\");\\n                }\\n            } catch Error(string memory reason) {\\n                revert(string.concat(\\\"Failed to set threshold: \\\", reason));\\n            } catch {\\n                revert(\\\"Failed to set threshold (no reason)\\\");\\n            }\\n        } catch Error(string memory reason) {\\n            revert(string.concat(\\\"Failed to initialize: \\\", reason));\\n        } catch {\\n            revert(\\\"Failed to initialize (no reason)\\\");\\n        }\\n    }\\n    \\n    function getAccounts(address owner) external view returns (address[] memory) {\\n        return ownerAccounts[owner];\\n    }\\n}\\n\",\"keccak256\":\"0xf86df446922f073bf32825c3edde05996b897e5df77f44536bb9391181dabe06\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60a060405234801561001057600080fd5b50604051610c2f380380610c2f83398101604081905261002f91610067565b6001600160a01b0381166100565760405163340aafcd60e11b815260040160405180910390fd5b6001600160a01b0316608052610097565b60006020828403121561007957600080fd5b81516001600160a01b038116811461009057600080fd5b9392505050565b608051610b776100b860003960008181607f01526101c50152610b776000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c80633100ceb5146100515780635c60da1b1461007a578063832e7809146100b9578063b8647e39146100cc575b600080fd5b61006461005f366004610849565b6100df565b6040516100719190610864565b60405180910390f35b6100a17f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b039091168152602001610071565b6100a16100c73660046108b1565b610153565b6100a16100da3660046108e6565b61074c565b6001600160a01b0381166000908152602081815260409182902080548351818402810184019094528084526060939283018282801561014757602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610129575b50505050509050919050565b6000836000036101765760405163aabd5a0960e01b815260040160405180910390fd5b82600003610197576040516302e8f35960e31b815260040160405180910390fd5b6001600160a01b0382166101be57604051634261081360e11b815260040160405180910390fd5b60006101e97f0000000000000000000000000000000000000000000000000000000000000000610784565b6040519091506001600160a01b038216907fbe2f3d28fdeb5839123d65fd47ec2f5915c715d2b527b9e229123706fdecfc8590600090a260405163189acdbd60e31b81523360048201526001600160a01b0382169063c4d66de890602401600060405180830381600087803b15801561026157600080fd5b505af1925050508015610272575060015b6103275761027e610910565b806308c379a0036102dd5750610292610967565b8061029d57506102df565b806040516020016102ae9190610a15565b60408051601f198184030181529082905262461bcd60e51b82526102d491600401610a53565b60405180910390fd5b505b60405162461bcd60e51b815260206004820181905260248201527f4661696c656420746f20696e697469616c697a6520286e6f20726561736f6e2960448201526064016102d4565b6040516001600160a01b038216907f0bd69566d41c5c41966f70f28da8a26cbf201dd4785d1b7da3f66c5c5096f13e90600090a2604051632582ff8160e21b8152600481018690526001600160a01b0382169063960bfe0490602401600060405180830381600087803b15801561039d57600080fd5b505af19250505080156103ae575060015b610440576103ba610910565b806308c379a0036103ea57506103ce610967565b806103d957506103ec565b806040516020016102ae9190610a86565b505b60405162461bcd60e51b815260206004820152602360248201527f4661696c656420746f20736574207468726573686f6c6420286e6f20726561736044820152626f6e2960e81b60648201526084016102d4565b806001600160a01b03167ff7e18aa0532694077d6fc7df02e85d86b91ba964f958d1949d45c5776d36eb6e8660405161047b91815260200190565b60405180910390a26040516380a79c5360e01b8152600481018590526001600160a01b038216906380a79c5390602401600060405180830381600087803b1580156104c557600080fd5b505af19250505080156104d6575060015b61055c576104e2610910565b806308c379a00361051257506104f6610967565b806105015750610514565b806040516020016102ae9190610acb565b505b60405162461bcd60e51b815260206004820181905260248201527f4661696c656420746f2073657420706572696f6420286e6f20726561736f6e2960448201526064016102d4565b806001600160a01b03167f09a388ec24176e675d9fd765f5fb4bd0cf32d2df3f7adab3b2d449ab1cea6f648560405161059791815260200190565b60405180910390a2604051634d76189760e11b81526001600160a01b03848116600483015260646024830152821690639aec312e90604401600060405180830381600087803b1580156105e957600080fd5b505af19250505080156105fa575060015b61068e57610606610910565b806308c379a003610636575061061a610967565b806106255750610638565b806040516020016102ae9190610afc565b505b60405162461bcd60e51b815260206004820152602560248201527f4661696c656420746f20616464207374616b65686f6c64657220286e6f20726560448201526461736f6e2960d81b60648201526084016102d4565b604080516001600160a01b038581168252606460208301528316917f3f8907752a0705baacda2a81db774eafdadcda1a941dde8d948882e4fce1d429910160405180910390a23360008181526020818152604080832080546001810182559084529282902090920180546001600160a01b0319166001600160a01b03861690811790915591519182527fac631f3001b55ea1509cf3d7e74898f85392a61a76e8149181ae1259622dabc8910160405180910390a290505b9392505050565b6000602052816000526040600020818154811061076857600080fd5b6000918252602090912001546001600160a01b03169150829050565b6000610791826000610797565b92915050565b6000814710156107c35760405163cf47918160e01b8152476004820152602481018390526044016102d4565b763d602d80600a3d3981f3363d3d373d3d3d363d730000008360601b60e81c176000526e5af43d82803e903d91602b57fd5bf38360781b176020526037600983f090506001600160a01b0381166107915760405163b06ebf3d60e01b815260040160405180910390fd5b80356001600160a01b038116811461084457600080fd5b919050565b60006020828403121561085b57600080fd5b6107458261082d565b6020808252825182820181905260009190848201906040850190845b818110156108a55783516001600160a01b031683529284019291840191600101610880565b50909695505050505050565b6000806000606084860312156108c657600080fd5b83359250602084013591506108dd6040850161082d565b90509250925092565b600080604083850312156108f957600080fd5b6109028361082d565b946020939093013593505050565b600060033d11156109295760046000803e5060005160e01c5b90565b601f8201601f1916810167ffffffffffffffff8111828210171561096057634e487b7160e01b600052604160045260246000fd5b6040525050565b600060443d10156109755790565b6040516003193d81016004833e81513d67ffffffffffffffff81602484011181841117156109a557505050505090565b82850191508151818111156109bd5750505050505090565b843d87010160208285010111156109d75750505050505090565b6109e66020828601018761092c565b509095945050505050565b60005b83811015610a0c5781810151838201526020016109f4565b50506000910152565b7502330b4b632b2103a379034b734ba34b0b634bd329d160551b815260008251610a468160168501602087016109f1565b9190910160160192915050565b6020815260008251806020840152610a728160408501602087016109f1565b601f01601f19169190910160400192915050565b7f4661696c656420746f20736574207468726573686f6c643a2000000000000000815260008251610abe8160198501602087016109f1565b9190910160190192915050565b7502330b4b632b2103a379039b2ba103832b934b7b21d160551b815260008251610a468160168501602087016109f1565b7f4661696c656420746f20616464207374616b65686f6c6465723a200000000000815260008251610b3481601b8501602087016109f1565b91909101601b019291505056fea264697066735822122021bf17b107de0e96ab7a68477eb61794e80b828e7990d1c35b8c15384c9097ef64736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c80633100ceb5146100515780635c60da1b1461007a578063832e7809146100b9578063b8647e39146100cc575b600080fd5b61006461005f366004610849565b6100df565b6040516100719190610864565b60405180910390f35b6100a17f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b039091168152602001610071565b6100a16100c73660046108b1565b610153565b6100a16100da3660046108e6565b61074c565b6001600160a01b0381166000908152602081815260409182902080548351818402810184019094528084526060939283018282801561014757602002820191906000526020600020905b81546001600160a01b03168152600190910190602001808311610129575b50505050509050919050565b6000836000036101765760405163aabd5a0960e01b815260040160405180910390fd5b82600003610197576040516302e8f35960e31b815260040160405180910390fd5b6001600160a01b0382166101be57604051634261081360e11b815260040160405180910390fd5b60006101e97f0000000000000000000000000000000000000000000000000000000000000000610784565b6040519091506001600160a01b038216907fbe2f3d28fdeb5839123d65fd47ec2f5915c715d2b527b9e229123706fdecfc8590600090a260405163189acdbd60e31b81523360048201526001600160a01b0382169063c4d66de890602401600060405180830381600087803b15801561026157600080fd5b505af1925050508015610272575060015b6103275761027e610910565b806308c379a0036102dd5750610292610967565b8061029d57506102df565b806040516020016102ae9190610a15565b60408051601f198184030181529082905262461bcd60e51b82526102d491600401610a53565b60405180910390fd5b505b60405162461bcd60e51b815260206004820181905260248201527f4661696c656420746f20696e697469616c697a6520286e6f20726561736f6e2960448201526064016102d4565b6040516001600160a01b038216907f0bd69566d41c5c41966f70f28da8a26cbf201dd4785d1b7da3f66c5c5096f13e90600090a2604051632582ff8160e21b8152600481018690526001600160a01b0382169063960bfe0490602401600060405180830381600087803b15801561039d57600080fd5b505af19250505080156103ae575060015b610440576103ba610910565b806308c379a0036103ea57506103ce610967565b806103d957506103ec565b806040516020016102ae9190610a86565b505b60405162461bcd60e51b815260206004820152602360248201527f4661696c656420746f20736574207468726573686f6c6420286e6f20726561736044820152626f6e2960e81b60648201526084016102d4565b806001600160a01b03167ff7e18aa0532694077d6fc7df02e85d86b91ba964f958d1949d45c5776d36eb6e8660405161047b91815260200190565b60405180910390a26040516380a79c5360e01b8152600481018590526001600160a01b038216906380a79c5390602401600060405180830381600087803b1580156104c557600080fd5b505af19250505080156104d6575060015b61055c576104e2610910565b806308c379a00361051257506104f6610967565b806105015750610514565b806040516020016102ae9190610acb565b505b60405162461bcd60e51b815260206004820181905260248201527f4661696c656420746f2073657420706572696f6420286e6f20726561736f6e2960448201526064016102d4565b806001600160a01b03167f09a388ec24176e675d9fd765f5fb4bd0cf32d2df3f7adab3b2d449ab1cea6f648560405161059791815260200190565b60405180910390a2604051634d76189760e11b81526001600160a01b03848116600483015260646024830152821690639aec312e90604401600060405180830381600087803b1580156105e957600080fd5b505af19250505080156105fa575060015b61068e57610606610910565b806308c379a003610636575061061a610967565b806106255750610638565b806040516020016102ae9190610afc565b505b60405162461bcd60e51b815260206004820152602560248201527f4661696c656420746f20616464207374616b65686f6c64657220286e6f20726560448201526461736f6e2960d81b60648201526084016102d4565b604080516001600160a01b038581168252606460208301528316917f3f8907752a0705baacda2a81db774eafdadcda1a941dde8d948882e4fce1d429910160405180910390a23360008181526020818152604080832080546001810182559084529282902090920180546001600160a01b0319166001600160a01b03861690811790915591519182527fac631f3001b55ea1509cf3d7e74898f85392a61a76e8149181ae1259622dabc8910160405180910390a290505b9392505050565b6000602052816000526040600020818154811061076857600080fd5b6000918252602090912001546001600160a01b03169150829050565b6000610791826000610797565b92915050565b6000814710156107c35760405163cf47918160e01b8152476004820152602481018390526044016102d4565b763d602d80600a3d3981f3363d3d373d3d3d363d730000008360601b60e81c176000526e5af43d82803e903d91602b57fd5bf38360781b176020526037600983f090506001600160a01b0381166107915760405163b06ebf3d60e01b815260040160405180910390fd5b80356001600160a01b038116811461084457600080fd5b919050565b60006020828403121561085b57600080fd5b6107458261082d565b6020808252825182820181905260009190848201906040850190845b818110156108a55783516001600160a01b031683529284019291840191600101610880565b50909695505050505050565b6000806000606084860312156108c657600080fd5b83359250602084013591506108dd6040850161082d565b90509250925092565b600080604083850312156108f957600080fd5b6109028361082d565b946020939093013593505050565b600060033d11156109295760046000803e5060005160e01c5b90565b601f8201601f1916810167ffffffffffffffff8111828210171561096057634e487b7160e01b600052604160045260246000fd5b6040525050565b600060443d10156109755790565b6040516003193d81016004833e81513d67ffffffffffffffff81602484011181841117156109a557505050505090565b82850191508151818111156109bd5750505050505090565b843d87010160208285010111156109d75750505050505090565b6109e66020828601018761092c565b509095945050505050565b60005b83811015610a0c5781810151838201526020016109f4565b50506000910152565b7502330b4b632b2103a379034b734ba34b0b634bd329d160551b815260008251610a468160168501602087016109f1565b9190910160160192915050565b6020815260008251806020840152610a728160408501602087016109f1565b601f01601f19169190910160400192915050565b7f4661696c656420746f20736574207468726573686f6c643a2000000000000000815260008251610abe8160198501602087016109f1565b9190910160190192915050565b7502330b4b632b2103a379039b2ba103832b934b7b21d160551b815260008251610a468160168501602087016109f1565b7f4661696c656420746f20616464207374616b65686f6c6465723a200000000000815260008251610b3481601b8501602087016109f1565b91909101601b019291505056fea264697066735822122021bf17b107de0e96ab7a68477eb61794e80b828e7990d1c35b8c15384c9097ef64736f6c63430008180033",
+  "devdoc": {
+    "errors": {
+      "FailedDeployment()": [
+        {
+          "details": "The deployment failed."
+        }
+      ],
+      "InsufficientBalance(uint256,uint256)": [
+        {
+          "details": "The ETH balance of the account is not enough to perform the operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 1116,
+        "contract": "contracts/SmartAccountFactory.sol:SmartAccountFactory",
+        "label": "ownerAccounts",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_address,t_array(t_address)dyn_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)dyn_storage": {
+        "base": "t_address",
+        "encoding": "dynamic_array",
+        "label": "address[]",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_address,t_array(t_address)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => address[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_address)dyn_storage"
+      }
+    }
+  }
+}

@@ -7,20 +7,27 @@ async function main() {
   // Deploy implementation
   const SmartAccount = await ethers.getContractFactory("SmartAccount");
   const smartAccount = await SmartAccount.deploy();
-  await smartAccount.waitForDeployment();
-  console.log("SmartAccount implementation deployed to:", await smartAccount.getAddress());
+  const smartAccountAddress = await smartAccount.getAddress();
+  console.log("SmartAccount implementation deployed to:", smartAccountAddress);
 
   // Deploy factory
   const SmartAccountFactory = await ethers.getContractFactory("SmartAccountFactory");
-  const factory = await SmartAccountFactory.deploy(await smartAccount.getAddress());
-  await factory.waitForDeployment();
-  console.log("SmartAccountFactory deployed to:", await factory.getAddress());
+  const factory = await SmartAccountFactory.deploy(smartAccountAddress);
+  const factoryAddress = await factory.getAddress();
+  console.log("SmartAccountFactory deployed to:", factoryAddress);
 
   // Export addresses for the playground
   console.log("\nContract Addresses:");
   console.log("-------------------");
-  console.log(`SMART_ACCOUNT_ADDRESS="${await smartAccount.getAddress()}"`);
-  console.log(`FACTORY_ADDRESS="${await factory.getAddress()}"`);
+  console.log(`SMART_ACCOUNT_ADDRESS="${smartAccountAddress}"`);
+  console.log(`FACTORY_ADDRESS="${factoryAddress}"`);
+
+  // Verify contracts are deployed
+  const factoryContract = await ethers.getContractAt("SmartAccountFactory", factoryAddress);
+  const implementationAddress = await factoryContract.implementation();
+  console.log("\nVerification:");
+  console.log("-------------");
+  console.log("Implementation address matches:", implementationAddress === smartAccountAddress);
 }
 
 main()
