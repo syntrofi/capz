@@ -17,6 +17,16 @@ contract SmartAccount is Initializable, OwnableUpgradeable {
     event ThresholdUpdated(uint256 newThreshold);
     event PeriodUpdated(uint256 newPeriod);
     
+    error InvalidPeriod();
+    error InvalidStakeholder();
+    error InvalidShare();
+    error StakeholderAlreadyExists();
+    error StakeholderNotFound();
+    error TooEarlyForRedistribution();
+    error NoStakeholders();
+    error BalanceBelowThreshold();
+    error TransferFailed();
+    
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -35,16 +45,16 @@ contract SmartAccount is Initializable, OwnableUpgradeable {
     }
     
     function setRedistributionPeriod(uint256 _period) external onlyOwner {
-        require(_period > 0, "Invalid period");
+        if(_period == 0) revert InvalidPeriod();
         redistributionPeriod = _period;
         nextRedistributionTime = block.timestamp + _period;
         emit PeriodUpdated(_period);
     }
     
     function addStakeholder(address stakeholder, uint256 share) external onlyOwner {
-        require(stakeholder != address(0), "Invalid stakeholder");
-        require(share > 0, "Invalid share");
-        require(stakeholderShares[stakeholder] == 0, "Already a stakeholder");
+        if(stakeholder == address(0)) revert InvalidStakeholder();
+        if(share == 0) revert InvalidShare();
+        if(stakeholderShares[stakeholder] != 0) revert StakeholderAlreadyExists();
         
         stakeholders.push(stakeholder);
         stakeholderShares[stakeholder] = share;

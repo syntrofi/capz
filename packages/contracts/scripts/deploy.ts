@@ -1,38 +1,31 @@
-import hre from "hardhat";
-import { getAddress } from "viem";
+import { ethers } from "hardhat";
 
 async function main() {
-  const [deployer] = await hre.viem.getWalletClients();
-  console.log("Deploying contracts with account:", deployer.account.address);
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying contracts with account:", deployer.address);
 
   // Deploy implementation
-  const smartAccount = await hre.viem.deployContract("SmartAccount");
-  console.log("SmartAccount implementation deployed to:", smartAccount.address);
+  const SmartAccount = await ethers.getContractFactory("SmartAccount");
+  const smartAccount = await SmartAccount.deploy();
+  await smartAccount.waitForDeployment();
+  console.log("SmartAccount implementation deployed to:", await smartAccount.getAddress());
 
   // Deploy factory
-  const smartAccountFactory = await hre.viem.deployContract("SmartAccountFactory", [
-    getAddress(smartAccount.address)
-  ]);
-  console.log("SmartAccountFactory deployed to:", smartAccountFactory.address);
+  const SmartAccountFactory = await ethers.getContractFactory("SmartAccountFactory");
+  const factory = await SmartAccountFactory.deploy(await smartAccount.getAddress());
+  await factory.waitForDeployment();
+  console.log("SmartAccountFactory deployed to:", await factory.getAddress());
 
-  // Create a test account
-  const tx = await smartAccountFactory.write.createAccount([
-    BigInt(1e18), // 1 ETH threshold
-    86400n,      // 1 day period
-    deployer.account.address
-  ]);
-  
-  const receipt = await smartAccountFactory.waitForTransactionReceipt({ hash: tx });
-  console.log("Test account created, transaction:", receipt.transactionHash);
-
-  console.log("\nDeployed Contracts:");
+  // Export addresses for the playground
+  console.log("\nContract Addresses:");
   console.log("-------------------");
-  console.log("Implementation:", smartAccount.address);
-  console.log("Factory:", smartAccountFactory.address);
-  console.log("\nSave these addresses for testing!");
+  console.log(`SMART_ACCOUNT_ADDRESS="${await smartAccount.getAddress()}"`);
+  console.log(`FACTORY_ADDRESS="${await factory.getAddress()}"`);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-}); 
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  }); 
