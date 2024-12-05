@@ -17,15 +17,50 @@ contract SmartAccount is Initializable, OwnableUpgradeable {
     event ThresholdUpdated(uint256 newThreshold);
     event PeriodUpdated(uint256 newPeriod);
     
+    error InvalidPeriod();
+    error InvalidStakeholder();
+    error InvalidShare();
+    error StakeholderAlreadyExists();
+    error StakeholderNotFound();
+    error TooEarlyForRedistribution();
+    error NoStakeholders();
+    error BalanceBelowThreshold();
+    error TransferFailed();
+    error NotFactory();
+    
+    address public factory;
+    
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
     
-    function initialize(address initialOwner) public initializer {
+    function initialize(
+        address initialOwner,
+        uint256 _threshold,
+        uint256 _period,
+        address _stakeholder
+    ) public initializer {
+        // Set factory address during initialization
+        factory = msg.sender;
+        
         __Ownable_init(initialOwner);
-        redistributionPeriod = 1 days; // Default period
-        nextRedistributionTime = block.timestamp + redistributionPeriod;
+        
+        // Set threshold
+        threshold = _threshold;
+        emit ThresholdUpdated(_threshold);
+        
+        // Set period
+        if(_period == 0) revert InvalidPeriod();
+        redistributionPeriod = _period;
+        nextRedistributionTime = block.timestamp + _period;
+        emit PeriodUpdated(_period);
+        
+        // Add stakeholder
+        if(_stakeholder == address(0)) revert InvalidStakeholder();
+        stakeholders.push(_stakeholder);
+        stakeholderShares[_stakeholder] = 100;
+        emit StakeholderAdded(_stakeholder, 100);
     }
     
     // Owner-only configuration functions
@@ -35,16 +70,16 @@ contract SmartAccount is Initializable, OwnableUpgradeable {
     }
     
     function setRedistributionPeriod(uint256 _period) external onlyOwner {
-        require(_period > 0, "Invalid period");
+        if(_period == 0) revert InvalidPeriod();
         redistributionPeriod = _period;
         nextRedistributionTime = block.timestamp + _period;
         emit PeriodUpdated(_period);
     }
     
     function addStakeholder(address stakeholder, uint256 share) external onlyOwner {
-        require(stakeholder != address(0), "Invalid stakeholder");
-        require(share > 0, "Invalid share");
-        require(stakeholderShares[stakeholder] == 0, "Already a stakeholder");
+        if(stakeholder == address(0)) revert InvalidStakeholder();
+        if(share == 0) revert InvalidShare();
+        if(stakeholderShares[stakeholder] != 0) revert StakeholderAlreadyExists();
         
         stakeholders.push(stakeholder);
         stakeholderShares[stakeholder] = share;

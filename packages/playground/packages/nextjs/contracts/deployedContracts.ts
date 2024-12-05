@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     SmartAccount: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
       abi: [
         {
           inputs: [],
@@ -16,7 +16,37 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "BalanceBelowThreshold",
+          type: "error",
+        },
+        {
+          inputs: [],
           name: "InvalidInitialization",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidPeriod",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidShare",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidStakeholder",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "NoStakeholders",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "NotFactory",
           type: "error",
         },
         {
@@ -44,6 +74,26 @@ const deployedContracts = {
             },
           ],
           name: "OwnableUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "StakeholderAlreadyExists",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "StakeholderNotFound",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "TooEarlyForRedistribution",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "TransferFailed",
           type: "error",
         },
         {
@@ -188,6 +238,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "factory",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "getStakeholders",
           outputs: [
             {
@@ -204,6 +267,21 @@ const deployedContracts = {
             {
               internalType: "address",
               name: "initialOwner",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_threshold",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_period",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "_stakeholder",
               type: "address",
             },
           ],
@@ -383,7 +461,7 @@ const deployedContracts = {
       },
     },
     SmartAccountFactory: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
       abi: [
         {
           inputs: [
@@ -418,6 +496,26 @@ const deployedContracts = {
           type: "error",
         },
         {
+          inputs: [],
+          name: "InvalidImplementation",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidPeriod",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidThreshold",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidWithdrawalAddress",
+          type: "error",
+        },
+        {
           anonymous: false,
           inputs: [
             {
@@ -434,6 +532,95 @@ const deployedContracts = {
             },
           ],
           name: "AccountCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "clone",
+              type: "address",
+            },
+          ],
+          name: "CloneCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "clone",
+              type: "address",
+            },
+          ],
+          name: "InitializationStarted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "clone",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "period",
+              type: "uint256",
+            },
+          ],
+          name: "PeriodSet",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "clone",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "stakeholder",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "share",
+              type: "uint256",
+            },
+          ],
+          name: "StakeholderAdded",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "clone",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "threshold",
+              type: "uint256",
+            },
+          ],
+          name: "ThresholdSet",
           type: "event",
         },
         {

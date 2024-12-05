@@ -2,11 +2,15 @@
   "name": "capz",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/contracts",
+    "packages/nextjs",
+    "packages/scripts",
+    "packages/web",
+    "packages/shared",
+    "packages/playground"
   ],
   "scripts": {
-    "build": "pnpm run -r build",
-    "dev": "pnpm run -r dev",
-    "test": "pnpm run -r test"
+    "contracts": "pnpm --filter @capz/contracts",
+    "playground": "pnpm --filter @se-2/playground"
   }
 }

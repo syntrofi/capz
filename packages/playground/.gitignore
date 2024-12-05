@@ -21,3 +21,6 @@ node_modules
 
 # cli
 dist
+
+# WalletConnect project ID
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_project_id_here

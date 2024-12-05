@@ -6,11 +6,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
+  console.log("Deploying contracts with account:", deployer);
+
   // Deploy implementation
   const smartAccount = await deploy("SmartAccount", {
     from: deployer,
     args: [],
     log: true,
+    waitConfirmations: 1
   });
 
   // Deploy factory
@@ -18,6 +21,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     from: deployer,
     args: [smartAccount.address],
     log: true,
+    waitConfirmations: 1
   });
 
   console.log("\nContract Addresses:");
