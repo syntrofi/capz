@@ -2,81 +2,143 @@
 pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/proxy/Clones.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./SmartAccount.sol";
 
-contract SmartAccountFactory {
+/**
+ * @title SmartAccountFactory
+ * @author Capz Protocol
+ * @notice Deploys SmartAccount clones using EIP-1167 minimal proxy pattern.
+ *         Each clone is gas-efficient (~45k gas to deploy vs ~500k+ for a full deploy).
+ *         The factory tracks all accounts per owner for easy frontend enumeration.
+ *
+ * @dev The factory is itself owned (by the Capz team) to allow pausing account
+ *      creation in emergencies. Individual SmartAccounts are owned by their creators.
+ */
+contract SmartAccountFactory is Ownable {
+    using Clones for address;
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // State
+    // ─────────────────────────────────────────────────────────────────────────
+
     address public immutable implementation;
-    mapping(address owner => address[] accounts) public ownerAccounts;
-    
-    event AccountCreated(address indexed owner, address account);
-    event CloneCreated(address indexed clone);
-    event InitializationStarted(address indexed clone);
-    event ThresholdSet(address indexed clone, uint256 threshold);
-    event PeriodSet(address indexed clone, uint256 period);
-    event StakeholderAdded(address indexed clone, address stakeholder, uint256 share);
-    
+    mapping(address => address[]) private _ownerAccounts;
+    address[] private _allAccounts;
+    bool public creationPaused;
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Events
+    // ─────────────────────────────────────────────────────────────────────────
+
+    event AccountCreated(
+        address indexed owner,
+        address indexed account,
+        uint256 threshold,
+        uint256 periodDuration,
+        address token,
+        string accountName
+    );
+
+    event CreationPausedUpdated(bool paused);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Errors
+    // ─────────────────────────────────────────────────────────────────────────
+
     error InvalidImplementation();
-    error InvalidThreshold();
-    error InvalidPeriod();
-    error InvalidWithdrawalAddress();
-    
-    constructor(address _implementation) {
-        if(_implementation == address(0)) revert InvalidImplementation();
+    error CreationIsPaused();
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Constructor
+    // ─────────────────────────────────────────────────────────────────────────
+
+    constructor(address _implementation, address _owner) Ownable(_owner) {
+        if (_implementation == address(0)) revert InvalidImplementation();
         implementation = _implementation;
     }
-    
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Account creation
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * @notice Deploy a new SmartAccount clone for the caller.
+     * @param payoutAddress      Address that receives seller's forwarded payments
+     * @param threshold          Soft cap per period (in token units)
+     * @param sellerOverflowBps  Seller's marginal retention above threshold (0–10000)
+     * @param periodDuration     Period length in seconds
+     * @param token              ERC20 token address, or address(0) for ETH
+     * @param beneficiaryMode    FIXED_LIST or BUYERS
+     * @param stakeholders       Stakeholder list (non-empty for FIXED_LIST, empty for BUYERS)
+     * @param accountName        Human-readable name
+     * @return account           The address of the newly deployed SmartAccount clone
+     */
     function createAccount(
+        address payoutAddress,
         uint256 threshold,
-        uint256 period,
-        address withdrawalAddress
-    ) external returns (address) {
-        if(threshold == 0) revert InvalidThreshold();
-        if(period == 0) revert InvalidPeriod();
-        if(withdrawalAddress == address(0)) revert InvalidWithdrawalAddress();
-        
-        // Clone the implementation
-        address payable clone = payable(Clones.clone(implementation));
-        emit CloneCreated(clone);
-        
-        // Initialize with more granular error handling
-        try SmartAccount(clone).initialize(msg.sender) {
-            emit InitializationStarted(clone);
-            
-            try SmartAccount(clone).setThreshold(threshold) {
-                emit ThresholdSet(clone, threshold);
-                
-                try SmartAccount(clone).setRedistributionPeriod(period) {
-                    emit PeriodSet(clone, period);
-                    
-                    try SmartAccount(clone).addStakeholder(withdrawalAddress, 100) {
-                        emit StakeholderAdded(clone, withdrawalAddress, 100);
-                        
-                        ownerAccounts[msg.sender].push(clone);
-                        emit AccountCreated(msg.sender, clone);
-                        return clone;
-                    } catch Error(string memory reason) {
-                        revert(string.concat("Failed to add stakeholder: ", reason));
-                    } catch {
-                        revert("Failed to add stakeholder (no reason)");
-                    }
-                } catch Error(string memory reason) {
-                    revert(string.concat("Failed to set period: ", reason));
-                } catch {
-                    revert("Failed to set period (no reason)");
-                }
-            } catch Error(string memory reason) {
-                revert(string.concat("Failed to set threshold: ", reason));
-            } catch {
-                revert("Failed to set threshold (no reason)");
-            }
-        } catch Error(string memory reason) {
-            revert(string.concat("Failed to initialize: ", reason));
-        } catch {
-            revert("Failed to initialize (no reason)");
-        }
+        uint256 sellerOverflowBps,
+        uint256 periodDuration,
+        address token,
+        SmartAccount.BeneficiaryMode beneficiaryMode,
+        SmartAccount.Stakeholder[] calldata stakeholders,
+        string calldata accountName
+    ) external returns (address account) {
+        if (creationPaused) revert CreationIsPaused();
+
+        account = implementation.clone();
+
+        SmartAccount(payable(account)).initialize(
+            msg.sender,
+            payoutAddress,
+            threshold,
+            sellerOverflowBps,
+            periodDuration,
+            token,
+            beneficiaryMode,
+            stakeholders,
+            accountName
+        );
+
+        _ownerAccounts[msg.sender].push(account);
+        _allAccounts.push(account);
+
+        emit AccountCreated(
+            msg.sender,
+            account,
+            threshold,
+            periodDuration,
+            token,
+            accountName
+        );
     }
-    
-    function getAccounts(address owner) external view returns (address[] memory) {
-        return ownerAccounts[owner];
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // View functions
+    // ─────────────────────────────────────────────────────────────────────────
+
+    function getAccountsByOwner(address owner) external view returns (address[] memory) {
+        return _ownerAccounts[owner];
+    }
+
+    function getAccountCountByOwner(address owner) external view returns (uint256) {
+        return _ownerAccounts[owner].length;
+    }
+
+    function getAllAccounts() external view returns (address[] memory) {
+        return _allAccounts;
+    }
+
+    function getTotalAccounts() external view returns (uint256) {
+        return _allAccounts.length;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Admin
+    // ─────────────────────────────────────────────────────────────────────────
+
+    function setCreationPaused(bool _paused) external onlyOwner {
+        creationPaused = _paused;
+        emit CreationPausedUpdated(_paused);
     }
 }

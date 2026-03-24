@@ -1,38 +1,44 @@
 {
   "name": "@capz/contracts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "contracts",
     "artifacts",
     "deployments",
-    "index.d.ts"
+    "dist",
+    "typechain-types"
   ],
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
+    "test:coverage": "hardhat coverage",
     "deploy:local": "hardhat deploy --network localhost",
-    "deploy": "hardhat deploy",
+    "deploy:base-sepolia": "hardhat deploy --network base-sepolia",
+    "deploy:base": "VERIFY_CONTRACTS=true hardhat deploy --network base",
+    "deploy:optimism-sepolia": "hardhat deploy --network optimism-sepolia",
+    "deploy:optimism": "VERIFY_CONTRACTS=true hardhat deploy --network optimism",
     "build": "hardhat compile && tsc",
     "prepare": "pnpm build",
-    "lint": "solhint contracts/**/*.sol",
-    "lint:fix": "solhint contracts/**/*.sol --fix",
-    "clean": "hardhat clean"
+    "lint": "solhint 'contracts/**/*.sol' --ignore-path .solhintignore",
+    "lint:fix": "solhint 'contracts/**/*.sol' --fix",
+    "clean": "hardhat clean && rm -rf dist"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@openzeppelin/contracts": "^5.0.0",
     "@openzeppelin/contracts-upgradeable": "^5.0.0",
-    "@nomiclabs/hardhat-ethers": "^2.2.3",
-    "chai": "^4.2.0",
     "dotenv": "^16.4.5",
-    "hardhat": "^2.22.1",
-    "hardhat-deploy": "^0.11.45",
-    "ethers": "^5.7.2",
-    "typescript": "^5.0.4",
-    "@types/node": "^20.11.0",
-    "@types/mocha": "^10.0.6"
+    "hardhat": "^2.22.17",
+    "hardhat-deploy": "^0.12.4",
+    "hardhat-deploy-ethers": "^0.4.2",
+    "solhint": "^5.0.0",
+    "typescript": "^5.7.2",
+    "@types/node": "^22.0.0",
+    "@types/mocha": "^10.0.6",
+    "ethers": "^6.13.0"
   }
 }
