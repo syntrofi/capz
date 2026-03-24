@@ -1,48 +1,121 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 20, 15, 34;
-  --background-end-rgb: 20, 15, 34;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
 @layer base {
+  :root {
+    /* shadcn/ui CSS variable tokens — dark brand theme */
+    --background: 258 36% 10%;       /* #140f22 dark_purple */
+    --foreground: 0 0% 95%;
+
+    --card: 258 30% 14%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 258 30% 14%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 249 31% 45%;          /* #5a4f96 ultra_violet */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 258 25% 20%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 258 20% 18%;
+    --muted-foreground: 258 10% 60%;
+
+    --accent: 330 100% 40%;          /* #cc0066 dogwood_rose */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 258 20% 22%;
+    --input: 258 20% 22%;
+    --ring: 249 31% 55%;
+
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 258 36% 10%;
+    --foreground: 0 0% 95%;
+
+    --card: 258 30% 14%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 258 30% 14%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 249 31% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 258 25% 20%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 258 20% 18%;
+    --muted-foreground: 258 10% 60%;
+
+    --accent: 330 100% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 258 20% 22%;
+    --input: 258 20% 22%;
+    --ring: 249 31% 55%;
+  }
+
+  * {
+    @apply border-border box-border;
+  }
+
+  html {
+    @apply antialiased scroll-smooth;
+  }
+
   body {
-    @apply bg-dark_purple text-platinum;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply text-white font-bold;
-  }
-  input, select, textarea {
-    @apply bg-english_violet text-white placeholder-gray-400 rounded-md focus:ring-2 focus:ring-ultra_violet focus:outline-none;
-  }
-  button {
-    @apply font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply font-semibold tracking-tight;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply px-4 py-3 bg-dogwood_rose text-white hover:bg-dogwood_rose/80 focus:ring-dogwood_rose;
+  .gradient-text {
+    background: linear-gradient(135deg, #a494ff 0%, #c5baff 50%, #e0daff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .btn-secondary {
-    @apply px-4 py-3 border border-ultra_violet text-ultra_violet hover:bg-ultra_violet hover:text-white focus:ring-ultra_violet;
+
+  .card-glass {
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
   }
-  .input-field {
-    @apply block w-full px-4 py-3;
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.5) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 }

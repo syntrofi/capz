@@ -3,14 +3,12 @@
   "private": true,
   "workspaces": [
     "packages/contracts",
-    "packages/nextjs",
-    "packages/scripts",
     "packages/web",
-    "packages/shared",
-    "packages/playground"
+    "packages/worker"
   ],
   "scripts": {
     "contracts": "pnpm --filter @capz/contracts",
-    "playground": "pnpm --filter @se-2/playground"
+    "web": "pnpm --filter @capz/web",
+    "worker": "pnpm --filter @capz/worker"
   }
 }

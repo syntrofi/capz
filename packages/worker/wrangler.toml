@@ -1,0 +1,29 @@
+name = "capz-automation"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ── D1 Database (tracks active accounts for efficient polling) ─────────────────
+[[d1_databases]]
+binding = "DB"
+database_name = "capz-automation"
+database_id = "placeholder-replace-after-d1-create"
+
+# ── Cron triggers ─────────────────────────────────────────────────────────────
+# Run every 15 minutes to check for accounts ready to close their period
+[triggers]
+crons = ["*/15 * * * *"]
+
+# ── Environment variables ──────────────────────────────────────────────────────
+# Set these via: wrangler secret put VAR_NAME
+# GELATO_API_KEY     - Gelato Network API key for task management
+# RPC_URL_BASE       - Base mainnet RPC (e.g. from Alchemy/Infura)
+# RPC_URL_BASE_SEP   - Base Sepolia RPC
+# FACTORY_ADDRESS_BASE     - Deployed factory on Base mainnet
+# FACTORY_ADDRESS_BASE_SEP - Deployed factory on Base Sepolia
+
+[env.production]
+name = "capz-automation-prod"
+
+[env.staging]
+name = "capz-automation-staging"

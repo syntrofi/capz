@@ -1,33 +1,41 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import Navbar from '@/components/Navbar'
-import { AuthProvider } from '@/contexts/AuthContext'
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
-  title: 'Capz Wallet',
-  description: 'Smart wallet management app',
-}
+  title: "Capz — Honor Your Values",
+  description:
+    "Set a limit on what you keep. Automatically share everything above it — with your customers, contributors, and the projects that support your work.",
+  keywords: ["capz", "redistribution", "web3", "open source", "ethereum", "base"],
+  openGraph: {
+    title: "Capz — Honor Your Values",
+    description:
+      "Cap your profits. Share the rest. Built on Base, open source, non-custodial.",
+    type: "website",
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} min-h-screen bg-dark_purple text-platinum`}>
-        <AuthProvider>
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <main className="flex-grow container mx-auto px-4 py-8">
-              {children}
-            </main>
-          </div>
-        </AuthProvider>
+    <html lang="en" className={`${inter.variable} dark`} suppressHydrationWarning>
+      <body className="min-h-screen bg-background text-foreground font-sans antialiased">
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
-  )
+  );
 }
