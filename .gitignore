@@ -37,3 +37,12 @@ next-env.d.ts
 
 structure.txt
 
+# Documentation (excluded from public remote)
+README.md
+CLAUDE.md
+documentation/
+packages/contracts/README.md
+packages/playground/README.md
+packages/playground/CONTRIBUTING.md
+packages/playground/.github/pull_request_template.md
+
